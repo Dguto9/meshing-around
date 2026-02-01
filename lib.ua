@@ -1,23 +1,69 @@
 # Experimental!
 ~ "gh: Omnikar/uiua-math" ~ Cross Dot QRot Qqp RQuat
+~ "constants.ua" ~ SuzanneSTL
 
 # Find the normal vector for a triangle
-TriNorm ← Cross°⊟-¤°⊂
+TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
 
-Det₂  ← /-×⇌
-Proj  ← ˜⊞×÷⤚˙⌞∩⌞Dot
-Proj₂ ← -+⊸∩⌟Proj
+Det₂  ↚ /-×⇌
+Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
+Proj₂ ↚ -+⊸∩⌟Proj
+
+Num  ↚ °0type
+Char ↚ °1type
+Box  ↚ °2type
+
+┌─╴Transform
+  ~ {
+    Position: ⊃(°0type|°[3]△) ← ⊚3
+    Scale: ⊃(°0type|°[3]△) ← ↯3 1
+    Rotation: ⊃(°0type|°[4]△) ← RQuat 0 ˙⊟₃ 0
+    # Don't change this! Used for validation
+    ID ← "Transform"
+  }
+└─╴
+
+┌─╴Mesh
+  ~ {
+    Triangles: Num°¤°(˜⊂3_3)△
+    Normals: Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
+    Transform: °1≍"Transform"Transform~ID ← Transform
+  }
+  CalculateNormals ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
+  ApplyScale       ← °⊸Transform≈Scale↯3 1°⊸Triangles⧋×⊸⊃Transform≈Scale Triangles
+  ApplyRot         ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸Triangles QRot⊸⊃Transform≈Rotation Triangles
+  ApplyPos         ← °⊸Transform≈Position⊚3°⊸Triangles⧋+⊸⊃Transform≈Position Triangles
+  ApplyTransform   ← ApplyPos ApplyRot ApplyScale
+└─╴
+
+┌─╴RenderConfig
+  ~ {
+    Size: Num ← 100
+    Zoom: Num ← 1
+    Camera: °1≍"Transform"Transform~ID ← Transform
+    Light: ⊃(°0type|°[3]△) ← ÷⊸⩜⌵1_1_1
+  }
+└─╴
+RC ↚ RenderConfig
+
+┌─╴ImageDepthPair
+  ~ {
+    Image
+    Depth
+  }
+└─╴
+IDP ↚ ImageDepthPair
 
 # Check if a point is within a triangle
-# Boolean ? Triangle Point
+# Boolean ? 2DTriangle Point
 InTri ← (
   °⊟⤚-⌞°⊂
   ∩⌞÷Det₂⟜₂(¯∩-∩⌟₂∩⌞˜Det₂)
-  ×⊃(×∩>₀|<₁+)
+  ×⊃(×∩≥₀|≤₁+)
 )
 
 # Rasterize a triangle
-# Mask ? Size Triangle
+# Mask ? Size 2DTriangle
 DrawTri ← (
   ˜InTri°⍉˙⊞⊟-⊸¬÷⟜⇡
 )
@@ -37,14 +83,16 @@ TriWithDepth ← ⟜(×⨪)⟜×⊃(DrawTri⊙⧋↙₂|TriDepth)
 # Value Depth ? Value Depth Value Depth
 CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 
-# Transform, shade and render an array of triangles
-# Use if you won't need depth information
-# Render ? Mesh Scale Camera Light Size
+# Fast render that does not output a depth map for compositing.
+# Render ? Mesh RenderConfig
 RenderMesh ← (
-  ˜QRot⊙(¤/Qqp˜RQuat˙⊞=⇡3)×
-  ⟜(÷√3÷√≡⌟(/+˙×⟜Dot TriNorm))
-  ∩⌞⊏⍖÷₃≡/+⧋⊃↘₂↙₂
-  ⊙⊙(¤⤙˜↯0)
+  Mesh~ApplyTransform
+  Mesh~CalculateNormals
+  ⊃↓(
+    ¤⤙˜↯0 ⋅RC~Size
+  | ≡⌟Dot⊓(Mesh~Normals|RC~Light)
+  | ⍖÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
+  ∩⌞⊏
   ∧(+⟜(×¬±)⌵×∪⌟˜DrawTri∘)
 )
 
@@ -100,3 +148,5 @@ GenSTL ↚ (
 )
 
 STL ← ⌅(GenSTL|DecodeSTL)
+
+Suzanne ← °STL SuzanneSTL
