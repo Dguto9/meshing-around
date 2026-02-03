@@ -21,6 +21,9 @@ Box  ↚ °2type
     # Don't change this! Used for validation
     ID ← "Transform"
   }
+  Forward ← ˜QRot 0_1_0 Rotation
+  Right   ← ˜QRot 1_0_0 Rotation
+  Up      ← ˜QRot 0_0_1 Rotation
 └─╴
 
 ┌─╴Mesh
@@ -40,7 +43,7 @@ Box  ↚ °2type
   ~ {
     Size: Num ← 100
     Zoom: Num ← 1
-    Camera: °1≍"Transform"Transform~ID ← Transform!(°⊸Rotation Qqp∩RQuat η/2 1_0_0 η/2 0_1_0 New)
+    Camera: °1≍"Transform"Transform~ID ← Transform!(°⊸Rotation Qqp∩RQuat η/3 0_0_1 2η/3 1_0_0 New)
     Light: ⊃(°0type|°[3]△) ← ÷⊸⩜⌵1_1_1
   }
 └─╴
@@ -59,7 +62,7 @@ IDP ↚ ImageDepthPair
 WorldToView ← (
   ◡⊓Mesh~Triangles (⊃(Transform~Position|Transform~Rotation|Transform~Scale)RC~Camera)
   ⧋˜-
-  ˜(QRot ×1_¯1_¯1_¯1)
+  ˜(QRot ⍜(↘1°⍉)¯)
   ⧋˜÷
   ⊓⌞(°⊸Mesh~Triangles|°⊸RC~Camera Transform◌)
 )
@@ -100,6 +103,9 @@ RenderMesh ← (
   Mesh~ApplyTransform
   Mesh~CalculateNormals
   WorldToView
+  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
+  ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
+  °⊸Mesh~Triangles⊙°⊸Mesh~Normals
   ⊃↓(
     ¤⤙˜↯0 ⋅RC~Size
   | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light)
