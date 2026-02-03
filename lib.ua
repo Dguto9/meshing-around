@@ -40,7 +40,7 @@ Box  ↚ °2type
   ~ {
     Size: Num ← 100
     Zoom: Num ← 1
-    Camera: °1≍"Transform"Transform~ID ← Transform
+    Camera: °1≍"Transform"Transform~ID ← Transform!(°⊸Rotation Qqp∩RQuat η/2 1_0_0 η/2 0_1_0 New)
     Light: ⊃(°0type|°[3]△) ← ÷⊸⩜⌵1_1_1
   }
 └─╴
@@ -54,18 +54,28 @@ RC ↚ RenderConfig
 └─╴
 IDP ↚ ImageDepthPair
 
+# Convert from World-space coordinates to View-space coordinates
+# Mesh RenderConfig ? Mesh RenderConfig
+WorldToView ← (
+  ◡⊓Mesh~Triangles (⊃(Transform~Position|Transform~Rotation|Transform~Scale)RC~Camera)
+  ⧋˜-
+  ˜(QRot ×1_¯1_¯1_¯1)
+  ⧋˜÷
+  ⊓⌞(°⊸Mesh~Triangles|°⊸RC~Camera Transform◌)
+)
+
 # Check if a point is within a triangle
 # Boolean ? 2DTriangle Point
 InTri ← (
   °⊟⤚-⌞°⊂
-  ∩⌞÷Det₂⟜₂(¯∩-∩⌟₂∩⌞˜Det₂)
+  ∩⌞÷Det₂⟜₂(¯∩˜-∩⌟₂∩⌞Det₂)
   ×⊃(×∩≥₀|≤₁+)
 )
 
 # Rasterize a triangle
 # Mask ? Size 2DTriangle
 DrawTri ← (
-  ˜InTri°⍉˙⊞⊟-⊸¬÷⟜⇡
+  ⇌⍜°⍉˜InTri˙⊞⊟-⊸¬÷⟜⇡
 )
 
 # Generate a depth map for a triangle
@@ -75,6 +85,7 @@ TriDepth ← (
   ˜⊓°⊟₃°⍉
   ∩₃⌞-
   ¯⊣Proj₂
+  ⍉
 )
 
 TriWithDepth ← ⟜(×⨪)⟜×⊃(DrawTri⊙⧋↙₂|TriDepth)
@@ -88,10 +99,11 @@ CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 RenderMesh ← (
   Mesh~ApplyTransform
   Mesh~CalculateNormals
+  WorldToView
   ⊃↓(
     ¤⤙˜↯0 ⋅RC~Size
-  | ≡⌟Dot⊓(Mesh~Normals|RC~Light)
-  | ⍖÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
+  | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light)
+  | ⍏÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
   ∧(+⟜(×¬±)⌵×∪⌟˜DrawTri∘)
 )
