@@ -34,9 +34,10 @@ Box  ↚ °2type
   }
   CalculateNormals ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   ApplyScale       ← °⊸Transform≈Scale↯3 1°⊸Triangles⧋×⊸⊃Transform≈Scale Triangles
-  ApplyRot         ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸Triangles QRot⊸⊃Transform≈Rotation Triangles
+  ApplyRot         ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸⊃(Normals|Triangles) ∩⌞QRot⊸⊃(Transform≈Rotation|Normals|Triangles)
   ApplyPos         ← °⊸Transform≈Position⊚3°⊸Triangles⧋+⊸⊃Transform≈Position Triangles
   ApplyTransform   ← ApplyPos ApplyRot ApplyScale
+  Rotate           ← °⊸Mesh~Transform≈Rotation Qqp⊸⊙Mesh~Transform≈Rotation
 └─╴
 
 ┌─╴RenderConfig
