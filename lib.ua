@@ -42,11 +42,13 @@ Box  ↚ °2type
 
 ┌─╴RenderConfig
   ~ {
-    Size: Num ← 100
+    Size: Num ← 100_100
     Zoom: Num ← 1
     Camera: °1≍"Transform"Transform~ID ← Transform!(°⊸Rotation Qqp∩RQuat η/3 0_0_1 2η/3 1_0_0 New)
+    FOV: Num ← η
     Light: ⊃(°0type|°[3]△) ← ÷⊸⩜⌵1_1_1
   }
+  AspectRatio ← /÷Size
 └─╴
 RC ↚ RenderConfig
 
@@ -77,9 +79,17 @@ InTri ← (
 )
 
 # Rasterize a triangle
+# Placement Mask ? 2DTriangle Size
+NewDrawTri ← (
+  ⊓⌊⌈⊸⊃/↧/↥
+  ⧋+⇡⤚-
+  ⟜(˜InTri°⍉)
+)
+
+# Rasterize a triangle
 # Mask ? Size 2DTriangle
 DrawTri ← (
-  ⇌⍜°⍉˜InTri˙⊞⊟-⊸¬÷⟜⇡
+  ⇌⍜°⍉˜InTri˙⊞⊟⇡
 )
 
 # Generate a depth map for a triangle
@@ -106,13 +116,16 @@ RenderMesh ← (
   WorldToView
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
   ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
-  °⊸Mesh~Triangles⊙°⊸Mesh~Normals
+  °⊸⊃Mesh~Triangles Mesh~Normals
   ⊃↓(
     ¤⤙˜↯0 ⋅RC~Size
   | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light)
   | ⍏÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
-  ∧(+⟜(×¬±)⌵×∪⌟˜DrawTri∘)
+  ÷₂+₁
+  ⊸∪⌟×⌟∘
+  ∧(⌝⊸⊡ ∩⌞▽ ∪⌟(≡/↧⤚>⌟⌵)∘ ˜∩⌞▽ ⊙⊸≠₀ ∩♭₋₁ ⊙×NewDrawTri)
+  ⇌°⍉
 )
 
 # Transform, shade and render an array of triangles
