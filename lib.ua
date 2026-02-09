@@ -79,7 +79,7 @@ InTri ← (
 )
 
 # Rasterize a triangle
-# Placement Mask ? 2DTriangle Size
+# Placement Mask ? 2DTriangle
 NewDrawTri ← (
   ⊓⌊⌈⊸⊃/↧/↥
   ⧋+⇡⤚-
