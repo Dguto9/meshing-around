@@ -9,56 +9,88 @@ Det₂  ↚ /-×⇌
 Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
 Proj₂ ↚ -+⊸∩⌟Proj
 
-Num  ↚ °0type
-Char ↚ °1type
-Box  ↚ °2type
+┌╶╶V
+  Num          ← °0type
+  Char         ← °1type
+  Box          ← °2type
+  Vec₂         ← ⊃(Num|°[2]△)
+  Vec₃         ← ⊃(Num|°[3]△)
+  Quat         ← ⊃(Num|°[4]△)
+  Color        ← Vec₃
+  ColorImg     ← ⊃(Num|⊃(°3⊣|°3⧻)△)
+  GreyscaleImg ← ⊃(Num|°2⧻△)
+└╶╶
 
 ┌─╴Transform
   ~ {
-    Position: ⊃(°0type|°[3]△) ← ⊚3
-    Scale: ⊃(°0type|°[3]△) ← ↯3 1
-    Rotation: ⊃(°0type|°[4]△) ← RQuat 0 ˙⊟₃ 0
+    Position: V~Vec₃ ← ⊚3
+    Scale: V~Vec₃ ← ↯3 1
+    Rotation: V~Quat ← RQuat 0 ˙⊟₃ 0
     # Don't change this! Used for validation
     ID ← "Transform"
   }
   Forward ← ˜QRot 0_1_0 Rotation
   Right   ← ˜QRot 1_0_0 Rotation
   Up      ← ˜QRot 0_0_1 Rotation
+
+  V ← °1≍"Transform"Transform~ID
+└─╴
+
+┌─╴Material
+  ~ {
+    Albedo: V~Color ← White
+    # Don't change this! Used for validation
+    ID ← "Material"
+  }
+  V ← °1≍"Material"Material~ID
 └─╴
 
 ┌─╴Mesh
   ~ {
-    Triangles: Num°¤°(˜⊂3_3)△
-    Normals: Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
-    Transform: °1≍"Transform"Transform~ID ← Transform
+    Triangles: V~Num°¤°(˜⊂3_3)△
+    Normals: V~Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
+    MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
+    Transform: Transform~V ← Transform
+    Materials: ≡Material~V ← [Material]
   }
-  CalculateNormals ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
-  ApplyScale       ← °⊸Transform≈Scale↯3 1°⊸Triangles⧋×⊸⊃Transform≈Scale Triangles
-  ApplyRot         ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸⊃(Normals|Triangles) ∩⌞QRot⊸⊃(Transform≈Rotation|Normals|Triangles)
-  ApplyPos         ← °⊸Transform≈Position⊚3°⊸Triangles⧋+⊸⊃Transform≈Position Triangles
-  ApplyTransform   ← ApplyPos ApplyRot ApplyScale
-  Rotate           ← °⊸Mesh~Transform≈Rotation Qqp⊸⊙Mesh~Transform≈Rotation
+  InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
+  CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
+  InitMaterialIndex ← ⍥(°⊸MaterialIndex˜↯0 ¤⧻⊸Triangles)≍¤∞ ⊸MaterialIndex
+  ApplyScale        ← °⊸Transform≈Scale↯3 1°⊸Triangles⧋×⊸⊃Transform≈Scale Triangles
+  ApplyRot          ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸⊃(Normals|Triangles) ∩⌞QRot⊸⊃(Transform≈Rotation|Normals|Triangles)
+  ApplyPos          ← °⊸Transform≈Position⊚3°⊸Triangles⧋+⊸⊃Transform≈Position Triangles
+  ApplyTransform    ← ApplyPos ApplyRot ApplyScale
+  Rotate            ← °⊸Mesh~Transform≈Rotation Qqp⊸⊙Mesh~Transform≈Rotation
+
+  Call ← InitMaterialIndex InitNormals New
 └─╴
 
 ┌─╴RenderConfig
   ~ {
-    Size: Num ← 100_100
-    Zoom: Num ← 1
-    Camera: °1≍"Transform"Transform~ID ← Transform!(°⊸Rotation Qqp∩RQuat η/3 0_0_1 2η/3 1_0_0 New)
-    FOV: Num ← η
-    Light: ⊃(°0type|°[3]△) ← ÷⊸⩜⌵1_1_1
+    Size: V~Vec₂ ← 100_100
+    Zoom: V~Num ← 1
+    Camera: Transform~V ← Transform!(°⊸Rotation Qqp∩RQuat η/3 0_0_1 2η/3 1_0_0 Transform)
+    FOV: V~Num ← η
+    Light: V~Vec₃ ← ÷⊸⩜⌵1_1_1
+    LightColor: V~Color ← White
+    AmbientColor: V~Color ← White
   }
   AspectRatio ← /÷Size
 └─╴
 RC ↚ RenderConfig
 
-┌─╴ImageDepthPair
+┌─╴RenderOutput
   ~ {
-    Image
-    Depth
+    Albedo: V~ColorImg
+    Normal: V~ColorImg
+    Ambient: V~ColorImg
+    Light: V~GreyscaleImg
+    Depth: V~GreyscaleImg
   }
+  # RenderOutput ? Size AmbientColor
+  Call ← New ⊃(⊃(˜↯0|˜↯0|↯)˜⊂3|⊃(˜↯0|˜↯∞))
 └─╴
-IDP ↚ ImageDepthPair
+RO ↚ RenderOutput
 
 # Convert from World-space coordinates to View-space coordinates
 # Mesh RenderConfig ? Mesh RenderConfig
@@ -87,6 +119,15 @@ NewDrawTri ← (
 )
 
 # Rasterize a triangle
+# PixelLocs ? 2DTriangle
+NewNewDrawTri ← (
+  ⊓⌊⌈⊸⊃/↧/↥
+  ⧋+⇡⤚-
+  ⟜(˜InTri°⍉)
+  ˜▽⊙≠₀ ∩♭₋₁
+)
+
+# Rasterize a triangle
 # Mask ? Size 2DTriangle
 DrawTri ← (
   ⇌⍜°⍉˜InTri˙⊞⊟⇡
@@ -109,10 +150,12 @@ TriWithDepth ← ⟜(×⨪)⟜×⊃(DrawTri⊙⧋↙₂|TriDepth)
 CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 
 # Fast render that does not output a depth map for compositing.
+# Use for real-time rendering or scene previewing
 # Render ? Mesh RenderConfig
-RenderMesh ← (
+RenderMeshPreview ← (
   Mesh~ApplyTransform
-  Mesh~CalculateNormals
+  Mesh~InitNormals
+  Mesh~InitMaterialIndex
   WorldToView
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
   ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
@@ -123,9 +166,39 @@ RenderMesh ← (
   | ⍏÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
   ÷₂+₁
-  ⊸∪⌟×⌟∘
+  ⊸∪⌟(×⊙(/↧°¤))∘
   ∧(⌝⊸⊡ ∩⌞▽ ∪⌟(≡/↧⤚>⌟⌵)∘ ˜∩⌞▽ ⊙⊸≠₀ ∩♭₋₁ ⊙×NewDrawTri)
   ⇌°⍉
+)
+
+# Full-featured renderer
+# Use for real-time rendering or scene previewing
+# Render ? Mesh RenderConfig
+RenderMesh ← (
+  Mesh~ApplyTransform
+  Mesh~InitNormals
+  Mesh~InitMaterialIndex
+  WorldToView
+  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
+  ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
+  °⊸⊃Mesh~Triangles Mesh~Normals
+  ⊃↓(
+    RO⋅⊃RC~Size RC~AmbientColor
+  | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light) # Lighting values
+  | Mesh~Normals                        # Normal values
+    # | ≡⊃(Material~Albedo) ⊏Mesh~MaterialIndex⊸Mesh~Materials
+  | ⊃(⧋↙₂|÷₃≡(°¤/+)⧋↘₂)Mesh~Triangles
+  | ⋅RC~Size
+  )
+  ⊙(÷₂+₁∩₄⌞⊏◡⋅⍏)
+  ¤⟜(×/↧)
+  ∧(
+    ▽⊸⧋(/↧<)⊙NewNewDrawTri
+    ⍜(⊙⊙⊙⊙⊃(RO~Depth|RO~Normal|RO~Light)
+    | ∩₃⌞(˜⍜⊙⊡≡⊙◌⊙¤)⊙(°□₆♭⍉⊟∩□₃)
+    )
+  )
+  ⍜⊃(RO~Depth|RO~Normal|RO~Light)∩₃(⇌⤸1_0)
 )
 
 # Transform, shade and render an array of triangles
