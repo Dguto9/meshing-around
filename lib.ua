@@ -13,9 +13,9 @@ Proj₂ ↚ -+⊸∩⌟Proj
   Num          ← °0type
   Char         ← °1type
   Box          ← °2type
+  Quat         ← ⊃(Num|°[4]△)
   Vec₂         ← ⊃(Num|°[2]△)
   Vec₃         ← ⊃(Num|°[3]△)
-  Quat         ← ⊃(Num|°[4]△)
   Color        ← Vec₃
   ColorImg     ← ⊃(Num|⊃(°3⊣|°3⧻)△)
   GreyscaleImg ← ⊃(Num|°2⧻△)
@@ -173,7 +173,7 @@ RenderMeshPreview ← (
 
 # Full-featured renderer
 # Use for real-time rendering or scene previewing
-# Render ? Mesh RenderConfig
+# RenderOutput ? Mesh RenderConfig
 RenderMesh ← (
   Mesh~ApplyTransform
   Mesh~InitNormals
