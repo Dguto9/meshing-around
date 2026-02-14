@@ -181,26 +181,26 @@ RenderMesh ← (
   Mesh~InitNormals
   Mesh~InitMaterialIndex
   WorldToView
-  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
-  ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
-  °⊸⊃Mesh~Triangles Mesh~Normals
+  ◡⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|Transform~Forward RC~Camera)
+  ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(<0Dot))
+  °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
   ⊃↓(
     RO⋅⊃RC~Size RC~AmbientColor
   | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light) # Lighting values
   | Mesh~Normals                        # Normal values
-    # | ≡⊃(Material~Albedo) ⊏Mesh~MaterialIndex⊸Mesh~Materials
+  | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials
   | ⊃(⧋↙₂|÷₃≡(°¤/+)⧋↘₂)Mesh~Triangles
   | ⋅RC~Size
   )
-  ⊙(÷₂+₁∩₄⌞⊏◡⋅⍏)
+  ⊙(÷₂+₁∩₅⌞⊏◡⋅⍏)
   ×/↧
   ∧(
     NewNewDrawTri
-    ⍜(⊙⊙⊙⊙⊃(RO~Depth|RO~Normal|RO~Light)
-    | ∩₃⌞(˜⍜⊙⬚0⊡≡⊙◌⊙¤)⊙(°□₆♭⍉⊟∩□₃)
+    ⍜(⊙⊙⊙⊙⊙⊃(RO~Depth|RO~Albedo|RO~Normal|RO~Light)
+    | ∩₄⌞(˜⍜⊙⬚0⊡≡⊙◌⊙¤)⊙(°□₈♭⍉⊟∩□₄)
     )
   )
-  ⍜⊃(RO~Depth|RO~Normal|RO~Light)∩₃(⇌⤸1_0)
+  ⍜⊃(RO~Depth|RO~Albedo|RO~Normal|RO~Light)∩₄(⇌⤸1_0)
 )
 
 # Transform, shade and render an array of triangles
