@@ -13,9 +13,9 @@ Proj₂ ↚ -+⊸∩⌟Proj
   Num          ← °0type
   Char         ← °1type
   Box          ← °2type
-  Quat         ← ⊃(Num|°[4]△)
   Vec₂         ← ⊃(Num|°[2]△)
   Vec₃         ← ⊃(Num|°[3]△)
+  Quat         ← ⊃(Num|°[4]△)
   Color        ← Vec₃
   ColorImg     ← ⊃(Num|⊃(°3⊣|°3⧻)△)
   GreyscaleImg ← ⊃(Num|°2⧻△)
@@ -35,6 +35,7 @@ Proj₂ ↚ -+⊸∩⌟Proj
 
   V ← °1≍"Transform"Transform~ID
 └─╴
+Camera ← Transform
 
 ┌─╴Material
   ~ {
@@ -76,6 +77,7 @@ Proj₂ ↚ -+⊸∩⌟Proj
     AmbientColor: V~Color ← White
   }
   AspectRatio ← /÷Size
+  HalfayVec   ← ÷₂+⊃(Light|Camera≈Forward)
 └─╴
 RC ↚ RenderConfig
 
@@ -88,14 +90,14 @@ RC ↚ RenderConfig
     Depth: V~GreyscaleImg
   }
   # RenderOutput ? Size AmbientColor
-  Call ← New ⊃(⊃(˜↯0|˜↯0|↯)˜⊂3|⊃(˜↯0|˜↯∞))
+  Call ← New ⊃(⊃(˜↯0|˜↯0|↯)˜⊂3|⊃(˜↯0|˜↯¯∞))
 └─╴
 RO ↚ RenderOutput
 
 # Convert from World-space coordinates to View-space coordinates
 # Mesh RenderConfig ? Mesh RenderConfig
 WorldToView ← (
-  ◡⊓Mesh~Triangles (⊃(Transform~Position|Transform~Rotation|Transform~Scale)RC~Camera)
+  ◡⊓Mesh~Triangles (⊃(Camera~Position|Camera~Rotation|Camera~Scale)RC~Camera)
   ⧋˜-
   ˜(QRot ⍜(↘1°⍉)¯)
   ⧋˜÷
@@ -191,11 +193,11 @@ RenderMesh ← (
   | ⋅RC~Size
   )
   ⊙(÷₂+₁∩₄⌞⊏◡⋅⍏)
-  ¤⟜(×/↧)
+  ×/↧
   ∧(
-    ▽⊸⧋(/↧<)⊙NewNewDrawTri
+    NewNewDrawTri
     ⍜(⊙⊙⊙⊙⊃(RO~Depth|RO~Normal|RO~Light)
-    | ∩₃⌞(˜⍜⊙⊡≡⊙◌⊙¤)⊙(°□₆♭⍉⊟∩□₃)
+    | ∩₃⌞(˜⍜⊙⬚0⊡≡⊙◌⊙¤)⊙(°□₆♭⍉⊟∩□₃)
     )
   )
   ⍜⊃(RO~Depth|RO~Normal|RO~Light)∩₃(⇌⤸1_0)
