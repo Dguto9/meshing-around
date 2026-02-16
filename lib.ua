@@ -124,9 +124,9 @@ NewDrawTri ← (
 # PixelLocs ? 2DTriangle
 NewNewDrawTri ← (
   ⊓⌊⌈⊸⊃/↧/↥
-  ⧋+⇡⤚-
-  ⟜(˜InTri°⍉)
-  ˜▽⊙≠₀ ∩♭₋₁
+  ⧋⤙+⇡⤚-
+  ⊙(⊚˜InTri°⍉)
+  +°¤
 )
 
 # Rasterize a triangle
@@ -151,7 +151,7 @@ TriWithDepth ← ⟜(×⨪)⟜×⊃(DrawTri⊙⧋↙₂|TriDepth)
 # Value Depth ? Value Depth Value Depth
 CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 
-# Fast render that does not output a depth map for compositing.
+# Fast render that does not output a depth map for compositing
 # Use for real-time rendering or scene previewing
 # Render ? Mesh RenderConfig
 RenderMeshPreview ← (
@@ -186,9 +186,9 @@ RenderMesh ← (
   °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
   ⊃↓(
     RO⋅⊃RC~Size RC~AmbientColor
-  | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light) # Lighting values
-  | Mesh~Normals                        # Normal values
-  | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials
+  | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
+  | Mesh~Normals                                        # Normal
+  | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   | ⊃(⧋↙₂|÷₃≡(°¤/+)⧋↘₂)Mesh~Triangles
   | ⋅RC~Size
   )
@@ -256,4 +256,4 @@ GenSTL ↚ (
 
 STL ← ⌅(GenSTL|DecodeSTL)
 
-Suzanne ← °STL SuzanneSTL
+Suzanne ← Mesh!(˜°⊸Normals New) °STL SuzanneSTL
