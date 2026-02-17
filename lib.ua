@@ -162,7 +162,7 @@ RenderMeshPreview ← (
   | ⍏÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
   ÷₂+₁
-  ∪⌟(×)∘
+  ∪⌟×∘
   ∧(˜⍜⊙⬚0⊡≡⊙◌⊙¤ DrawTri)
   ⇌°⍉
 )
