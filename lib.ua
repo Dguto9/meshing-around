@@ -72,7 +72,7 @@ Camera ← Transform
     Zoom: V~Num ← 1
     Camera: Transform~V ← Transform!(°⊸Rotation Qqp∩RQuat η/3 0_0_1 2η/3 1_0_0 Transform)
     FOV: V~Num ← η
-    Light: V~Vec₃ ← ÷⊸⩜⌵1_1_1
+    Light: V~Vec₃ ← ÷⊸⩜⌵1_0_¯1
     LightColor: V~Color ← White
     AmbientColor: V~Color ← White
   }
@@ -186,7 +186,7 @@ RenderMesh ← (
   °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
   ⊃↓(
     RO⋅⊃RC~Size RC~AmbientColor
-  | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
+  | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)                # Lighting
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   | ⊃(⧋↙₂|÷₃≡(°¤/+)⧋↘₂)Mesh~Triangles
