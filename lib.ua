@@ -74,7 +74,7 @@ Camera ← Transform
     FOV: V~Num ← η
     Light: V~Vec₃ ← ÷⊸⩜⌵1_0_¯1
     LightColor: V~Color ← White
-    AmbientColor: V~Color ← White
+    AmbientColor: V~Color ← Black
   }
   AspectRatio ← /÷Size
   HalfayVec   ← ÷₂+⊃(Light|Camera≈Forward)
@@ -83,14 +83,14 @@ RC ↚ RenderConfig
 
 ┌─╴RenderOutput
   ~ {
+    Depth: V~GreyscaleImg
     Albedo: V~ColorImg
     Normal: V~ColorImg
-    Ambient: V~ColorImg
     Light: V~GreyscaleImg
-    Depth: V~GreyscaleImg
+    Ambient: V~ColorImg
   }
   # RenderOutput ? Size AmbientColor
-  Call ← New ⊃(⊃(˜↯0|˜↯0|↯)˜⊂3|⊃(˜↯0|˜↯¯∞))
+  # Call ← New ⊃(⊃(˜↯0|˜↯0|↯)˜⊂3|⊃(˜↯0|˜↯¯∞))
 └─╴
 RO ↚ RenderOutput
 
@@ -176,23 +176,17 @@ RenderMesh ← (
   Mesh~InitMaterialIndex
   WorldToView
   ⊸CullBackfaces
-  ⊃↓(
-    RO⋅⊃RC~Size RC~AmbientColor
+  ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|⧋↙₂)Mesh~Triangles|⤙˜↯∞ RC~Size)
+  ⟜(⊙(×⊙/↧°(-⊸¬))⟜⊏⍏)
+  ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
+  ⊙⊙⊃↓(
+  | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
   | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)                # Lighting
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
-  | ⊃(⧋↙₂|÷₃≡(°¤/+)⧋↘₂)Mesh~Triangles
-  | ⋅RC~Size
   )
-  ⊙(÷₂+₁∩₅⌞⊏◡⋅⍏)
-  ×/↧
-  ∧(
-    DrawTri
-    ⍜(⊙⊙⊙⊙⊙⊃(RO~Depth|RO~Albedo|RO~Normal|RO~Light)
-    | ∩₄⌞(˜⍜⊙⬚0⊡≡⊙◌⊙¤)⊙(°□₈♭⍉⊟∩□₄)
-    )
-  )
-  ⍜⊃(RO~Depth|RO~Albedo|RO~Normal|RO~Light)∩₄(⇌⤸1_0)
+  ⊓⌞(⬚¯∞⊏|⬚0⊏|⬚0⊏|⬚0⊏)∩₄⌞⊙∘
+  RO
 )
 
 DecodeBinSTL ↚ (
