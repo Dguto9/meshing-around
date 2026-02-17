@@ -104,6 +104,14 @@ WorldToView ← (
   ⊓⌞(°⊸Mesh~Triangles|°⊸RC~Camera Transform◌)
 )
 
+# Filter out faces by direction facing relative to camera
+# Mesh ? Mesh RenderConfig
+CullBackfaces ← (
+  ⤚⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|Transform~Forward RC~Camera)
+  ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(<0Dot))
+  °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
+)
+
 # Check if a point is within a triangle
 # Boolean ? 2DTriangle Point
 InTri ← (
@@ -113,26 +121,12 @@ InTri ← (
 )
 
 # Rasterize a triangle
-# Placement Mask ? 2DTriangle
-NewDrawTri ← (
-  ⊓⌊⌈⊸⊃/↧/↥
-  ⧋+⇡⤚-
-  ⟜(˜InTri°⍉)
-)
-
-# Rasterize a triangle
 # PixelLocs ? 2DTriangle
-NewNewDrawTri ← (
+DrawTri ← (
   ⊓⌊⌈⊸⊃/↧/↥
   ⧋⤙+⇡⤚-
   ⊙(⊚˜InTri°⍉)
   +°¤
-)
-
-# Rasterize a triangle
-# Mask ? Size 2DTriangle
-DrawTri ← (
-  ⇌⍜°⍉˜InTri˙⊞⊟⇡
 )
 
 # Generate a depth map for a triangle
@@ -163,13 +157,13 @@ RenderMeshPreview ← (
   ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
   ⊃↓(
-    ¤⤙˜↯0 ⋅RC~Size
-  | °(-⊸¬)≡⌟Dot⊓(Mesh~Normals|RC~Light)
+    /↧⤙˜↯0 ⋅RC~Size
+  | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)
   | ⍏÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
   ÷₂+₁
-  ⊸∪⌟(×⊙(/↧°¤))∘
-  ∧(⌝⊸⊡ ∩⌞▽ ∪⌟(≡/↧⤚>⌟⌵)∘ ˜∩⌞▽ ⊙⊸≠₀ ∩♭₋₁ ⊙×NewDrawTri)
+  ∪⌟(×)∘
+  ∧(˜⍜⊙⬚0⊡≡⊙◌⊙¤ DrawTri)
   ⇌°⍉
 )
 
@@ -181,9 +175,7 @@ RenderMesh ← (
   Mesh~InitNormals
   Mesh~InitMaterialIndex
   WorldToView
-  ◡⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|Transform~Forward RC~Camera)
-  ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(<0Dot))
-  °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
+  ⊸CullBackfaces
   ⊃↓(
     RO⋅⊃RC~Size RC~AmbientColor
   | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)                # Lighting
@@ -195,33 +187,12 @@ RenderMesh ← (
   ⊙(÷₂+₁∩₅⌞⊏◡⋅⍏)
   ×/↧
   ∧(
-    NewNewDrawTri
+    DrawTri
     ⍜(⊙⊙⊙⊙⊙⊃(RO~Depth|RO~Albedo|RO~Normal|RO~Light)
     | ∩₄⌞(˜⍜⊙⬚0⊡≡⊙◌⊙¤)⊙(°□₈♭⍉⊟∩□₄)
     )
   )
   ⍜⊃(RO~Depth|RO~Albedo|RO~Normal|RO~Light)∩₄(⇌⤸1_0)
-)
-
-# Transform, shade and render an array of triangles
-# Extremely slow; only use on small meshes
-# Render Depth ? Mesh Scale Camera Light Size
-RenderWithDepth ← (
-  ˜QRot⊙(¤/Qqp˜RQuat˙⊞=⇡3)×
-  ⟜(÷√3÷√≡⌟(/+˙×⟜Dot TriNorm))
-  ⊙⊙(⟜(⤙×NaN˜↯0˙⊟))
-  ∧(CombineByDepth×⌵∪⌞∘˜TriWithDepth)
-)
-
-# Transform, shade and render an array of triangles
-# Fast; mostly-accurate depth for compositing
-# Render Depth ? Mesh Scale Camera Light Size
-RenderApproxDepth ← (
-  ˜QRot⊙(¤/Qqp˜RQuat˙⊞=⇡3)×
-  ⟜(÷√3÷√≡⌟(/+˙×⟜Dot TriNorm))
-  ⤚⋅⊙∘÷₃≡/+⧋⊃↘₂↙₂
-  ⊙⊙⊙(⟜(⤙×NaN˜↯0˙⊟))
-  ∧(CombineByDepth⌵×∪⌞∘(⟜(×⨪)⟜×)∪⌟˜DrawTri⊙∘)
 )
 
 DecodeBinSTL ↚ (
