@@ -29,9 +29,9 @@ Proj₂ ↚ -+⊸∩⌟Proj
     # Don't change this! Used for validation
     ID ← "Transform"
   }
-  Forward ← ˜QRot 0_1_0 Rotation
+  Forward ← ˜QRot 0_0_¯1 Rotation
   Right   ← ˜QRot 1_0_0 Rotation
-  Up      ← ˜QRot 0_0_1 Rotation
+  Up      ← ˜QRot 0_1_0 Rotation
 
   V ← °1≍"Transform"Transform~ID
 └─╴
@@ -50,6 +50,7 @@ Camera ← Transform
   ~ {
     Triangles: V~Num°¤°(˜⊂3_3)△
     Normals: V~Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
+    UVs ← ˜↯1_3_2 ∞
     MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
     Transform: Transform~V ← Transform
     Materials: ≡Material~V ← [Material]
@@ -70,7 +71,7 @@ Camera ← Transform
   ~ {
     Size: V~Vec₂ ← 100_100
     Zoom: V~Num ← 1
-    Camera: Transform~V ← Transform!(°⊸Rotation Qqp∩RQuat η/3 0_0_1 2η/3 1_0_0 Transform)
+    Camera: Transform~V ← Transform
     FOV: V~Num ← η
     Light: V~Vec₃ ← ÷⊸⩜⌵1_0_¯1
     LightColor: V~Color ← White
@@ -83,6 +84,7 @@ RC ↚ RenderConfig
 
 ┌─╴RenderOutput
   ~ {
+    Indices: V~GreyscaleImg
     Depth: V~GreyscaleImg
     Albedo: V~ColorImg
     Normal: V~ColorImg
@@ -174,8 +176,8 @@ RenderMesh ← (
   Mesh~ApplyTransform
   Mesh~InitNormals
   Mesh~InitMaterialIndex
-  WorldToView
   ⊸CullBackfaces
+  WorldToView
   ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|⧋↙₂)Mesh~Triangles|⤙˜↯∞ RC~Size)
   ⟜(⊙(×⊙/↧°(-⊸¬))⟜⊏⍏)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
@@ -185,7 +187,7 @@ RenderMesh ← (
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
-  ⊓⌞(⬚¯∞⊏|⬚0⊏|⬚0⊏|⬚0⊏)∩₄⌞⊙∘
+  ⟜⊓⌞(⬚¯∞⊏|⬚0⊏|⬚0⊏|⬚0⊏)∩₄⌞⊙∘
   RO
 )
 
@@ -217,6 +219,15 @@ GenSTL ↚ (
   ♭≡(˜⊂0_0♭)
   ⊙(bytes"u32")
   ⊂⊚80˜⊂
+)
+
+DecodeOBJ ← (
+  ⊜(□⊜□⊸≠@ )⊸≠@\n
+  ≡◇⊃(∩₄⌟(/↧=)"v " "vt" "vn" "f " ⬚@ ↙₂°□°¤↙₁)(□↘₁)
+  ∩₄⌟▽
+  ∩₃⋕⊙⊙⊙(⊙⊙⧋⊢°⊟₃°⍉≡◇≡◇⊜(-₁⋕)⊸≠@/)
+  °□₆♭⍉˜⊟∩□₃
+  ∩₃⊏
 )
 
 STL ← ⌅(GenSTL|DecodeSTL)
