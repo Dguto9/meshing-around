@@ -33,7 +33,7 @@ Proj₂ ↚ -+⊸∩⌟Proj
   Right   ← ˜QRot 1_0_0 Rotation
   Up      ← ˜QRot 0_1_0 Rotation
 
-  V ← °1≍"Transform"Transform~ID
+  V ← °1≍"Transform"ID
 └─╴
 Camera ← Transform
 
@@ -43,7 +43,7 @@ Camera ← Transform
     # Don't change this! Used for validation
     ID ← "Material"
   }
-  V ← °1≍"Material"Material~ID
+  V ← °1≍"Material"ID
 └─╴
 
 ┌─╴Mesh
