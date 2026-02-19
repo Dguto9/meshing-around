@@ -249,4 +249,4 @@ GenOBJ ← (
 STL ← ⌅(GenSTL|DecodeSTL)
 OBJ ← ⌅(GenOBJ|DecodeOBJ)
 
-Suzanne ← Mesh!(˜°⊸Normals New) °STL SuzanneSTL
+Suzanne ← °STL SuzanneSTL
