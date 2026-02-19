@@ -155,10 +155,10 @@ RenderMeshPreview ← (
   Mesh~ApplyTransform
   Mesh~InitNormals
   Mesh~InitMaterialIndex
-  WorldToView
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
   ∩⌟(˜▽)⊙(⟜≡⌟(>0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
+  WorldToView
   ⊃↓(
     /↧⤙˜↯0 ⋅RC~Size
   | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)
