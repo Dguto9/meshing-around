@@ -161,7 +161,7 @@ RenderMeshPreview ← (
   WorldToView
   ⊃↓(
     /↧⤙˜↯0 ⋅RC~Size
-  | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)
+  | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)
   | ⍖÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
   ÷₂+₁
@@ -184,7 +184,7 @@ RenderMesh ← (
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-  | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)                # Lighting
+  | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
