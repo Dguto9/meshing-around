@@ -50,13 +50,14 @@ Camera ← Transform
   ~ {
     Triangles: V~Num°¤°(˜⊂3_3)△
     Normals: V~Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
-    UVs ← ˜↯1_3_2 ∞
+    UVs: V~Num°¤°(˜⊂3_2)△ ← ↯1_3_2 ∞
     MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
     Transform: Transform~V ← Transform
     Materials: ≡Material~V ← [Material]
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
+  InitUVs           ← ⍥(°⊸UVs ˜↯0 ˜⊂3_2 ⧻⊸Triangles)≍↯1_3_2 ∞ ⊸UVs
   InitMaterialIndex ← ⍥(°⊸MaterialIndex˜↯0 ¤⧻⊸Triangles)≍¤∞ ⊸MaterialIndex
   ApplyScale        ← °⊸Transform≈Scale↯3 1°⊸Triangles⧋×⊸⊃Transform≈Scale Triangles
   ApplyRot          ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸⊃(Normals|Triangles) ∩⌞QRot⊸⊃(Transform≈Rotation|Normals|Triangles)
@@ -64,7 +65,7 @@ Camera ← Transform
   ApplyTransform    ← ApplyPos ApplyRot ApplyScale
   Rotate            ← °⊸Mesh~Transform≈Rotation Qqp⊸⊙Mesh~Transform≈Rotation
 
-  Call ← InitMaterialIndex InitNormals New
+  Call ← InitUVs InitMaterialIndex InitNormals New
 └─╴
 
 ┌─╴RenderConfig
@@ -110,7 +111,7 @@ WorldToView ← (
 # Mesh ? Mesh RenderConfig
 CullBackfaces ← (
   ⤚⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|Transform~Forward RC~Camera)
-  ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(<0Dot))
+  ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(>0Dot))
   °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
 )
 
@@ -156,12 +157,12 @@ RenderMeshPreview ← (
   Mesh~InitMaterialIndex
   WorldToView
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
-  ∩⌟(˜▽)⊙(⟜≡⌟(<0Dot))
+  ∩⌟(˜▽)⊙(⟜≡⌟(>0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
   ⊃↓(
     /↧⤙˜↯0 ⋅RC~Size
   | °(-⊸¬)¯≡⌟Dot⊓(Mesh~Normals|RC~Light)
-  | ⍏÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
+  | ⍖÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
   ∩⌞⊏
   ÷₂+₁
   ∪⌟×∘
@@ -179,7 +180,7 @@ RenderMesh ← (
   ⊸CullBackfaces
   WorldToView
   ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|⧋↙₂)Mesh~Triangles|⤙˜↯∞ RC~Size)
-  ⟜(⊙(×⊙/↧°(-⊸¬))⟜⊏⍏)
+  ⟜(⊙(×⊙/↧°(-⊸¬))⟜⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
@@ -187,7 +188,7 @@ RenderMesh ← (
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
-  ⟜⊓⌞(⬚¯∞⊏|⬚0⊏|⬚0⊏|⬚0⊏)∩₄⌞⊙∘
+  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏)∩₄⌞⊙∘
   RO
 )
 
