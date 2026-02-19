@@ -211,9 +211,11 @@ DecodeSTL ↚ (
   ↯˜⊂4_3÷12⊸⧻
   ⍜⍉(⍉°⊂)
   ⤙⊙◌
+  Mesh!(˜°⊸Normals Mesh)
 )
 
 GenSTL ↚ (
+  ⊃(Mesh~Triangles|Mesh~Normals)
   ⊙⟜⧻
   ≡˜⊂
   bytes"f32"
@@ -229,8 +231,22 @@ DecodeOBJ ← (
   ∩₃⋕⊙⊙⊙(⊙⊙⧋⊢°⊟₃°⍉≡◇≡◇⊜(-₁⋕)⊸≠@/)
   °□₆♭⍉˜⊟∩□₃
   ∩₃⊏
+  Mesh!(˜°⊸Normals˜°⊸UVs Mesh)
+)
+
+GenOBJ ← (
+  ⊃(Mesh~Triangles|Mesh~UVs|Mesh~Normals)
+  ∩₃(⊸≡⌟˜⨂⟜(◴♭₂))
+  °□₆♭⇌⍉⊟₃∩₃□₂
+  ∩₃⍚/$"_ _"
+  ⊓(⍚⌞⊂"v "|⍚⌞⊂"vt "|⍚⌞⊂"vn ")
+  ∩₃/$"_\n_"
+  ⊙⊙⊙(/$"_\n_"⍚⌞⊂"f "⍚/$"_ _"⍚₁/$"_/_"+₁⍉⊟₃⊙⊙(⍉˙⊟₃))
+  "# Meshing Around\n# https://github.com/Dguto9/meshing-around"
+  /$"_\n_" □₅
 )
 
 STL ← ⌅(GenSTL|DecodeSTL)
+OBJ ← ⌅(GenOBJ|DecodeOBJ)
 
 Suzanne ← Mesh!(˜°⊸Normals New) °STL SuzanneSTL
