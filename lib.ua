@@ -1,5 +1,5 @@
 # Experimental!
-~ "gh: Omnikar/uiua-math" ~ Cross Dot QRot Qqp RQuat
+~ "gh: Omnikar/uiua-math" ~ Cross Dot MInv Mvp QRot Qqp RQuat
 ~ "constants.ua" ~ SuzanneSTL
 
 # Find the normal vector for a triangle
@@ -90,6 +90,7 @@ RC ↚ RenderConfig
     Albedo: V~ColorImg
     Normal: V~ColorImg
     Light: V~GreyscaleImg
+    TriCoords
     Ambient: V~ColorImg
   }
   # RenderOutput ? Size AmbientColor
@@ -179,16 +180,19 @@ RenderMesh ← (
   Mesh~InitMaterialIndex
   ⊸CullBackfaces
   WorldToView
-  ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|⧋↙₂)Mesh~Triangles|⤙˜↯∞ RC~Size)
-  ⟜(⊙(×⊙/↧°(-⊸¬))⟜⊏⍖)
+  ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)Mesh~Triangles|/↧⤙˜↯∞ RC~Size)
+  ⟜(⊙×⟜⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
+    # | °⍉⊂⟜(⧋≡MInv-⌞)°⊂⍉×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
+  | ≡⊢×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
   | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
-  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏)∩₄⌞⊙∘
+  # ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|⧋˜Mvp?˜-⇡↙₂⊸△⊙(⤸1_2)°⊂⤸₂⬚∞⊏)∩₅⌞⊙∘
+  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|˜-⇡⊸△₂⬚NaN⊏⍉⇌)∩₅⌞⊙∘
   RO
 )
 
@@ -224,7 +228,7 @@ GenSTL ↚ (
   ⊂⊚80˜⊂
 )
 
-DecodeOBJ ← (
+DecodeOBJ ↚ (
   ⊜(□⊜□⊸≠@ )⊸≠@\n
   ≡◇⊃(∩₄⌟(/↧=)"v " "vt" "vn" "f " ⬚@ ↙₂°□°¤↙₁)(□↘₁)
   ∩₄⌟▽
@@ -234,7 +238,7 @@ DecodeOBJ ← (
   Mesh!(˜°⊸Normals˜°⊸UVs Mesh)
 )
 
-GenOBJ ← (
+GenOBJ ↚ (
   ⊃(Mesh~Triangles|Mesh~UVs|Mesh~Normals)
   ∩₃(⊸≡⌟˜⨂⟜(◴♭₂))
   °□₆♭⇌⍉⊟₃∩₃□₂
