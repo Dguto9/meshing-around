@@ -8,8 +8,9 @@ TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
 Det₂  ↚ /-×⇌
 Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
 Proj₂ ↚ -+⊸∩⌟Proj
+Inv₂  ↚ ⧋÷⊃(Det₂°⊟)⍜⇌(⤸₁⍜⌝⤸¯ 0_0)
 
-┌╶╶V
+┌╶╶Validation
   Num          ← °0type
   Char         ← °1type
   Box          ← °2type
@@ -20,6 +21,7 @@ Proj₂ ↚ -+⊸∩⌟Proj
   ColorImg     ← ⊃(Num|⊃(°3⊣|°3⧻)△)
   GreyscaleImg ← ⊃(Num|°2⧻△)
 └╶╶
+V ↚ Validation
 
 ┌─╴Transform
   ~ {
@@ -29,9 +31,9 @@ Proj₂ ↚ -+⊸∩⌟Proj
     # Don't change this! Used for validation
     ID ← "Transform"
   }
-  Forward ← ˜QRot 0_0_¯1 Rotation
+  Forward ← ˜QRot 0_1_0 Rotation
   Right   ← ˜QRot 1_0_0 Rotation
-  Up      ← ˜QRot 0_1_0 Rotation
+  Up      ← ˜QRot 0_0_1 Rotation
 
   V ← °1≍"Transform"ID
 └─╴
@@ -111,7 +113,7 @@ WorldToView ← (
 # Filter out faces by direction facing relative to camera
 # Mesh ? Mesh RenderConfig
 CullBackfaces ← (
-  ⤚⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|Transform~Forward RC~Camera)
+  ⤚⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|¯Transform~Up RC~Camera)
   ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(>0Dot))
   °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
 )
@@ -156,7 +158,7 @@ RenderMeshPreview ← (
   Mesh~ApplyTransform
   Mesh~InitNormals
   Mesh~InitMaterialIndex
-  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|Transform~Forward RC~Camera)
+  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|¯Transform~Up RC~Camera)
   ∩⌟(˜▽)⊙(⟜≡⌟(>0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
   WorldToView
@@ -185,14 +187,12 @@ RenderMesh ← (
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-    # | °⍉⊂⟜(⧋≡MInv-⌞)°⊂⍉×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
-  | ≡⊢×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
+  | °⍉⊂⟜(Inv₂-⌞)°⊂⍉×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
   | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
-  # ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|⧋˜Mvp?˜-⇡↙₂⊸△⊙(⤸1_2)°⊂⤸₂⬚∞⊏)∩₅⌞⊙∘
-  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|˜-⇡⊸△₂⬚NaN⊏⍉⇌)∩₅⌞⊙∘
+  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|⇌⤸₁⍉⧋˜Mvp?⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌)∩₅⌞⊙∘
   RO
 )
 
