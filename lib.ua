@@ -187,12 +187,12 @@ RenderMesh ← (
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-  | °⍉⊂⟜(Inv₂-⌞)°⊂⍉×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
   | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
-  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|⇌⤸₁⍉⧋˜Mvp?⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌)∩₅⌞⊙∘
+  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌)∩₅⌞⊙∘
   RO
 )
 
