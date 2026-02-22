@@ -94,9 +94,14 @@ RC ↚ RenderConfig
     Light: V~GreyscaleImg
     TriCoords
     Ambient: V~ColorImg
+    TexCoords ← ∞
   }
-  # RenderOutput ? Size AmbientColor
-  # Call ← New ⊃(⊃(˜↯0|˜↯0|↯)˜⊂3|⊃(˜↯0|˜↯¯∞))
+
+  GenTexCoords ← (
+    ⤚⊙(⊃TriCoords∩⌞(⬚0⊏Indices)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
+    +⊙⍉⊙⧋˜Mvp
+    °⊸TexCoords
+  )
 └─╴
 RO ↚ RenderOutput
 
@@ -192,7 +197,10 @@ RenderMesh ← (
   | Mesh~Normals                                        # Normal
   | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
   )
-  ⟜⊓⌞(⬚∞⊏|⬚0⊏|⬚0⊏|⬚0⊏|⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌)∩₅⌞⊙∘
+  ⟜⊓⌞(
+    ⬚∞⊏ | ⬚0⊏ | ⬚0⊏ | ⬚0⊏
+  | ⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌
+  )∩₅⌞⊙∘
   RO
 )
 
