@@ -96,10 +96,9 @@ RC ↚ RenderConfig
     Ambient: V~ColorImg
     TexCoords ← ∞
   }
-
   GenTexCoords ← (
-    ⤚⊙(⊃TriCoords∩⌞(⬚0⊏Indices)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
-    +⊙⍉⊙⧋˜Mvp
+    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Indices)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
+    +⍉∪⌟⧋˜Mvp∘
     °⊸TexCoords
   )
 └─╴
@@ -118,9 +117,9 @@ WorldToView ← (
 # Filter out faces by direction facing relative to camera
 # Mesh ? Mesh RenderConfig
 CullBackfaces ← (
-  ⤚⊓(⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)|¯Transform~Up RC~Camera)
-  ∩₃⌟(˜▽)⊙⊙(⟜≡⌟(>0Dot))
-  °⊸⊃(Mesh~Triangles|Mesh~MaterialIndex|Mesh~Normals)
+  ⤚⊓(⊃(Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex|Mesh~Normals)|¯RC~Camera≈Up)
+  ∩₄⌟(˜▽)⊙⊙⊙(⟜≡⌟(>0Dot))
+  °⊸⊃(Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex|Mesh~Normals)
 )
 
 # Check if a point is within a triangle
@@ -190,7 +189,7 @@ RenderMesh ← (
   ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)Mesh~Triangles|/↧⤙˜↯∞ RC~Size)
   ⟜(⊙×⟜⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
-  ⊙⊙⊃↓(
+  ⊙⊙⤚⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
   | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
   | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
@@ -202,6 +201,7 @@ RenderMesh ← (
   | ⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌
   )∩₅⌞⊙∘
   RO
+  RO~GenTexCoords
 )
 
 DecodeBinSTL ↚ (
@@ -238,7 +238,7 @@ GenSTL ↚ (
 
 DecodeOBJ ↚ (
   ⊜(□⊜□⊸≠@ )⊸≠@\n
-  ≡◇⊃(∩₄⌟(/↧=)"v " "vt" "vn" "f " ⬚@ ↙₂°□°¤↙₁)(□↘₁)
+  ≡◇⊃(∩₄⌟(/↧=)"v " "vt" "vn" "f " ⬚@ ↙₂°□°¤↙₁|□↘₁)
   ∩₄⌟▽
   ∩₃⋕⊙⊙⊙(⊙⊙⧋⊢°⊟₃°⍉≡◇≡◇⊜(-₁⋕)⊸≠@/)
   °□₆♭⍉˜⊟∩□₃
