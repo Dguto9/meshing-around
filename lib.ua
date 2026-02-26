@@ -117,9 +117,9 @@ WorldToView ← (
 # Filter out faces by direction facing relative to camera
 # Mesh ? Mesh RenderConfig
 CullBackfaces ← (
-  ⤚⊓(⊃(Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex|Mesh~Normals)|¯RC~Camera≈Up)
-  ∩₄⌟(˜▽)⊙⊙⊙(⟜≡⌟(>0Dot))
-  °⊸⊃(Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex|Mesh~Normals)
+  ˜⤚⊓(¯RC~Camera≈Up|⊃(Mesh~Normals|Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex))
+  ∩₄⌞▽⊸≡⌞(>0Dot)
+  °⊸⊃(Mesh~Normals|Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex)
 )
 
 # Check if a point is within a triangle
@@ -163,7 +163,7 @@ RenderMeshPreview ← (
   Mesh~InitNormals
   Mesh~InitMaterialIndex
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|¯RC~Camera≈Up)
-  ∩⌟(˜▽)⊙(⟜≡⌟(>0Dot))
+  ∩⌟˜▽⊙(⟜≡⌟(>0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
   WorldToView
   ⊃↓(
