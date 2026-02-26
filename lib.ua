@@ -95,7 +95,7 @@ RC ↚ RenderConfig
     Light: V~GreyscaleImg
     TriCoords: V~AlphaImg
     Ambient: V~ColorImg
-    UVs ← ∞
+    UVs: V~AlphaImg ← ↯1_1_2 ∞
   }
   GenTexCoords ← (
     ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Indices)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
