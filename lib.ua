@@ -19,6 +19,7 @@ Inv₂  ↚ ⧋÷⊃(Det₂°⊟)⍜⇌(⤸₁⍜⌝⤸¯ 0_0)
   Quat         ← ⊃(Num|°[4]△)
   Color        ← Vec₃
   ColorImg     ← ⊃(Num|⊃(°3⊣|°3⧻)△)
+  AlphaImg     ← ⊃(Num|⊃(°2⊣|°3⧻)△)
   GreyscaleImg ← ⊃(Num|°2⧻△)
 └╶╶
 V ↚ Validation
@@ -92,7 +93,7 @@ RC ↚ RenderConfig
     Albedo: V~ColorImg
     Normal: V~ColorImg
     Light: V~GreyscaleImg
-    TriCoords
+    TriCoords: V~AlphaImg
     Ambient: V~ColorImg
     UVs ← ∞
   }
