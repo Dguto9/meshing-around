@@ -78,7 +78,6 @@ Camera ← Transform
     Camera: Transform~V ← Transform
     FOV: V~Num ← η
     Light: V~Vec₃ ← ÷⊸⩜⌵1_0_¯1
-    LightColor: V~Color ← White
     AmbientColor: V~Color ← Black
   }
   AspectRatio ← /÷Size
@@ -163,7 +162,7 @@ RenderMeshPreview ← (
   Mesh~ApplyTransform
   Mesh~InitNormals
   Mesh~InitMaterialIndex
-  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|¯Transform~Up RC~Camera)
+  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|¯RC~Camera≈Up)
   ∩⌟(˜▽)⊙(⟜≡⌟(>0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
   WorldToView
@@ -185,24 +184,24 @@ RenderMesh ← (
   Mesh~ApplyTransform
   Mesh~InitNormals
   Mesh~InitMaterialIndex
-  ⊸CullBackfaces
   WorldToView
-  ◡⊓(⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)Mesh~Triangles|/↧⤙˜↯∞ RC~Size)
-  ⟜(⊙×⟜⊏⍖)
+  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|/↧⤙˜↯∞ RC~Size))
+  ∩⌟˜▽⊙(°⊏≡⌟(>0Dot))
+  ⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)
+  ⟜(∪⌞∘×∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
-  ⊙⊙⤚⊃↓(
+  ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-  | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size)
-  | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                 # Lighting
-  | Mesh~Normals                                        # Normal
-  | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials # Albedo
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size) # UVs
+  | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                  # Lighting
+  | Mesh~Normals                                         # Normal
+  | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials  # Albedo
   )
   ⟜⊓⌞(
     ⬚∞⊏ | ⬚0⊏ | ⬚0⊏ | ⬚0⊏
   | ⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌
   )∩₅⌞⊙∘
   RO
-  RO~GenTexCoords
 )
 
 DecodeBinSTL ↚ (
