@@ -94,12 +94,12 @@ RC ↚ RenderConfig
     Light: V~GreyscaleImg
     TriCoords
     Ambient: V~ColorImg
-    TexCoords ← ∞
+    UVs ← ∞
   }
   GenTexCoords ← (
     ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Indices)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
     +⍉∪⌟⧋˜Mvp∘
-    °⊸TexCoords
+    °⊸UVs
   )
 └─╴
 RO ↚ RenderOutput
