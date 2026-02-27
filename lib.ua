@@ -143,6 +143,9 @@ DrawTri ← (
 # Value Depth ? Value Depth Value Depth
 CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 
+ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(RO~UVs|^0)
+ApplyTexture! ← ApplyTexture‼^⊙◌
+
 # Fast render that does not output a depth map for compositing
 # Use for real-time rendering or scene previewing
 # Render ? Mesh RenderConfig
@@ -169,9 +172,11 @@ RenderMeshPreview ← (
 # Use for real-time rendering or scene previewing
 # RenderOutput ? Mesh RenderConfig
 RenderMesh ← (
-  Mesh~ApplyTransform
-  Mesh~InitNormals
-  Mesh~InitMaterialIndex
+  Mesh!(
+    ApplyTransform
+    InitNormals
+    InitMaterialIndex
+  )
   WorldToView
   ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|/↧⤙˜↯∞ RC~Size))
   ∩⌟˜▽⊙(°⊏≡⌟(>0Dot))
