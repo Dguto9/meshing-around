@@ -179,9 +179,9 @@ RenderMesh ← (
   )
   WorldToView
   ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|/↧⤙˜↯∞ RC~Size))
-  ∩⌟˜▽⊙(°⊏≡⌟(>0Dot))
   ⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)
-  ⟜(∪⌞∘×∩⌞⊏⍖)
+  ⟜∩₃⌟˜▽⊙⊙(°⊏≡⌟(>0Dot))
+  ⊙(∪⌞∘×∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
