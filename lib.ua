@@ -139,18 +139,6 @@ DrawTri ← (
   +°¤
 )
 
-# Generate a depth map for a triangle
-# Depths ? Size Triangle
-TriDepth ← (
-  ˙⊞(˜⊂0⊟)-⊸¬÷⟜⇡
-  ˜⊓°⊟₃°⍉
-  ∩₃⌞-
-  ¯⊣Proj₂
-  ⍉
-)
-
-TriWithDepth ← ⟜(×⨪)⟜×⊃(DrawTri⊙⧋↙₂|TriDepth)
-
 # Pick the closer of two depth-value pairs
 # Value Depth ? Value Depth Value Depth
 CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
