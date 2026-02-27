@@ -1,5 +1,5 @@
 # Experimental!
-~ "gh: Omnikar/uiua-math" ~ Cross Dot MInv Mvp QRot Qqp RQuat
+~ "gh: Omnikar/uiua-math" ~ Cross Dot Mvp QRot Qqp RQuat
 ~ "constants.ua" ~ SuzanneSTL
 
 # Find the normal vector for a triangle
