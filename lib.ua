@@ -2,13 +2,13 @@
 ~ "gh: Omnikar/uiua-math" ~ Cross Dot Mvp QRot Qqp RQuat
 ~ "constants.ua" ~ SuzanneSTL
 
-# Find the normal vector for a triangle
-TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
-
 Det₂  ↚ /-×⇌
 Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
 Proj₂ ↚ -+⊸∩⌟Proj
 Inv₂  ↚ ⧋÷⊃(Det₂°⊟)⍜⇌(⤸₁⍜⌝⤸¯ 0_0)
+
+# Find the normal vector for a triangle
+TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
 
 ┌╶╶Validation
   Num          ← °0type
@@ -43,6 +43,8 @@ Camera ← Transform
 ┌─╴Material
   ~ {
     Albedo: V~Color ← White
+    Roughness: V~Num ← 1
+    Reflectivity: V~Num ← 0
     # Don't change this! Used for validation
     ID ← "Material"
   }
@@ -87,19 +89,27 @@ RC ↚ RenderConfig
 
 ┌─╴RenderOutput
   ~ {
-    Indices: V~GreyscaleImg
+    Index: V~GreyscaleImg
     Depth: V~GreyscaleImg
-    Albedo: V~ColorImg
+    MaterialIndex: V~GreyscaleImg
     Normal: V~ColorImg
     Light: V~GreyscaleImg
     TriCoords: V~AlphaImg
     Ambient: V~ColorImg
     UVs: V~AlphaImg ← ↯1_1_2 ∞
+    Albedo: V~ColorImg ← ↯1_1_3 ∞
+    Roughness: V~GreyscaleImg ← ↯1_1 ∞
+    Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
   }
   GenUVs ← (
-    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Indices)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
+    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
     +⍉∪⌟⧋˜Mvp∘
     °⊸UVs
+  )
+  GenMatData ← (
+    ⤚⊓MaterialIndex (≡⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
+    ∩₃⌞⬚0⊏
+    °⊸⊃(Albedo|Roughness|Reflectivity)
   )
 └─╴
 RO ↚ RenderOutput
@@ -188,12 +198,12 @@ RenderMesh ← (
   | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size) # UVs
   | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                  # Lighting
   | Mesh~Normals                                         # Normal
-  | ≡Material~Albedo ⊏Mesh~MaterialIndex⟜Mesh~Materials  # Albedo
+  | Mesh~MaterialIndex                                   # Albedo
   )
   ⟜⊓⌞(
-    ⬚∞⊏ | ⬚0⊏ | ⬚0⊏ | ⬚0⊏
+    ⬚∞⊏ | ⬚∞⊏ | ⬚0⊏ | ⬚0⊏
   | ⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌
-  )∩₅⌞⊙∘
+  )
   RO
 )
 
