@@ -102,7 +102,7 @@ RC ↚ RenderConfig
     Roughness: V~GreyscaleImg ← ↯1_1 ∞
     Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
   }
-  GenMeshProp‼ ← (
+  GenMeshProp‼ ↚ (
     ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉^0)
     +⍉∪⌟⧋˜Mvp∘
     °⊸^1
