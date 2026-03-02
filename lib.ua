@@ -102,15 +102,16 @@ RC ↚ RenderConfig
     Roughness: V~GreyscaleImg ← ↯1_1 ∞
     Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
   }
-  GenUVs ← (
-    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
+  GenMeshProp‼ ← (
+    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉^0)
     +⍉∪⌟⧋˜Mvp∘
-    °⊸UVs
+    °⊸^1
+  )
+  GenUVs ← (
+    GenMeshProp‼Mesh~UVs UVs
   )
   GenPos ← (
-    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉ Mesh~Triangles Mesh~ApplyTransform)
-    +⍉∪⌟⧋˜Mvp∘
-    °⊸Pos
+    GenMeshProp‼Mesh~Triangles Pos⊙Mesh~ApplyTransform
   )
   GenMatData ← (
     ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
