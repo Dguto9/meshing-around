@@ -42,9 +42,9 @@ Camera ← Transform
 
 ┌─╴Material
   ~ {
-    Albedo: V~Color ← White
-    Roughness: V~Num ← 1
-    Reflectivity: V~Num ← 0
+    Albedo: V~ColorImg ← ¤¤White
+    Roughness: V~GreyscaleImg ← ¤¤1
+    Reflectivity: V~GreyscaleImg ← ¤¤0
     # Don't change this! Used for validation
     ID ← "Material"
   }
@@ -107,10 +107,13 @@ RC ↚ RenderConfig
     °⊸UVs
   )
   GenMatData ← (
-    ⤚⊓MaterialIndex (≡⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
-    ∩₃⌞⬚0⊏
+    ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
+    ⊞=⇡◡⋅⋅⧻
+    ⨬NaN_NaN∘⊙¤
+    ∩₃⌞(/+≡◇(⬚0⊡⌊⧋×⊸⊙△₂))
     °⊸⊃(Albedo|Roughness|Reflectivity)
   )
+  Call ← °⊸UVs˜↯0△ ⊸TriCoords New
 └─╴
 RO ↚ RenderOutput
 
@@ -201,7 +204,7 @@ RenderMesh ← (
   | Mesh~MaterialIndex                                   # Albedo
   )
   ⟜⊓⌞(
-    ⬚∞⊏ | ⬚∞⊏ | ⬚0⊏ | ⬚0⊏
+    ⬚∞⊏ | ⬚NaN⊏ | ⬚0⊏ | ⬚0⊏
   | ⇌⤸₁⍉⧋˜Mvp⊙(⤸0_1_3_2⍉)˜-⇡⊸△₂°⊂⤸₂⬚NaN⊏⍉⇌
   )
   RO
