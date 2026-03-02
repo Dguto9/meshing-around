@@ -59,7 +59,7 @@ Camera ← Transform
     MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
     Transform: Transform~V ← Transform
     Materials: ≡Material~V ← [Material]
-    TextureSet: ≡V~Box ← ¤□∞
+    TextureSet: ≡V~Box ← []
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
@@ -178,9 +178,10 @@ CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 # Use for real-time rendering or scene previewing
 # Render ? Mesh RenderConfig
 RenderMeshPreview ← (
-  Mesh~ApplyTransform
-  Mesh~InitNormals
-  Mesh~InitMaterialIndex
+  Mesh!(
+    ApplyTransform
+    InitNormals
+  )
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|¯RC~Camera≈Up)
   ∩⌟˜▽⊙(⟜≡⌟(>0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
