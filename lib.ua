@@ -97,6 +97,7 @@ RC ↚ RenderConfig
     TriCoords: V~AlphaImg
     Ambient: V~ColorImg
     UVs: V~AlphaImg ← ↯1_1_2 ∞
+    Pos: V~ColorImg ← ↯1_1_3 ∞
     Albedo: V~ColorImg ← ↯1_1_3 ∞
     Roughness: V~GreyscaleImg ← ↯1_1 ∞
     Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
@@ -105,6 +106,11 @@ RC ↚ RenderConfig
     ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉Mesh~UVs)
     +⍉∪⌟⧋˜Mvp∘
     °⊸UVs
+  )
+  GenPos ← (
+    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉ Mesh~Triangles Mesh~ApplyTransform)
+    +⍉∪⌟⧋˜Mvp∘
+    °⊸Pos
   )
   GenMatData ← (
     ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
