@@ -59,6 +59,7 @@ Camera ← Transform
     MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
     Transform: Transform~V ← Transform
     Materials: ≡Material~V ← [Material]
+    TextureSet: ≡V~Box ← ¤□∞
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
@@ -102,6 +103,8 @@ RC ↚ RenderConfig
     Roughness: V~GreyscaleImg ← ↯1_1 ∞
     Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
   }
+  ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
+  ApplyTexture! ← ApplyTexture‼^⊙◌
   GenMeshProp‼ ↚ (
     ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉^0)
     +⍉∪⌟⧋˜Mvp∘
@@ -119,6 +122,14 @@ RC ↚ RenderConfig
     ⨬NaN_NaN∘⊙¤
     ∩₃⌞(/+≡◇(⬚0⊡⌊⧋×⊸⊙△₂))
     °⊸⊃(Albedo|Roughness|Reflectivity)
+  )
+  ApplyTexFromSet‼ ← (
+    ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
+    ˜ApplyTexture‼^0^1
+  )
+  ApplyTexFromSet! ← (
+    ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
+    ˜ApplyTexture‼^0⊙◌
   )
   Call ← °⊸UVs˜↯0△ ⊸TriCoords New
 └─╴
@@ -162,9 +173,6 @@ DrawTri ← (
 # Pick the closer of two depth-value pairs
 # Value Depth ? Value Depth Value Depth
 CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
-
-ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(RO~UVs|^0)
-ApplyTexture! ← ApplyTexture‼^⊙◌
 
 # Fast render that does not output a depth map for compositing
 # Use for real-time rendering or scene previewing
