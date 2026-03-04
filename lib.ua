@@ -8,6 +8,7 @@ Proj₂ ↚ -+⊸∩⌟Proj
 Inv₂  ↚ ⧋÷⊃(Det₂°⊟)⍜⇌(⤸₁⍜⌝⤸¯ 0_0)
 
 # Find the normal vector for a triangle
+# Vector ? Triangle
 TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
 
 # Pick the closer of two depth-value pairs
@@ -28,6 +29,7 @@ CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 └╶╶
 V ↚ Validation
 
+# Transform is used to represent the translation, rotation, and scale of an object.
 ┌─╴Transform
   ~ {
     Position: V~Vec₃ ← ⊚3
@@ -44,6 +46,9 @@ V ↚ Validation
 └─╴
 Camera ← Transform
 
+# Materials are used to represent a particular set of shading values.
+# Each field of a material contains a texture, which will be mapped to the surface of any triangle using it.
+# To use a single value rather than a texture, `¤¤` the value.
 ┌─╴Material
   ~ {
     Albedo: V~ColorImg ← ¤¤White
@@ -55,6 +60,10 @@ Camera ← Transform
   V ← °1≍"Material"ID
 └─╴
 
+# A mesh represents a single object to render.
+# It holds a set of triangles, their normal vectors, their UV coordinates,
+# the materials to shade with, which triangles use which materials, a transform,
+# and a set of textures to be moved around with the mesh.
 ┌─╴Mesh
   ~ {
     Triangles: V~Num°¤°(˜⊂3_3)△
@@ -78,6 +87,8 @@ Camera ← Transform
   Call ← InitUVs InitMaterialIndex InitNormals New
 └─╴
 
+# A RenderConfig defines some parameters for rendering a mesh, which aren't specific to the mesh.
+# Using the same RenderConfig with multiple meshes should result in a set of renders which can be composed into a single scene, as though they were rendered from the same camera.
 ┌─╴RenderConfig
   ~ {
     Size: V~Vec₂ ← 100_100
@@ -292,7 +303,9 @@ GenOBJ ↚ (
   /$"_\n_" □₅
 )
 
+# Import an STL file as a Mesh. STL files do not contain UV coordinates.
 STL ← ⌅(GenSTL|DecodeSTL)
+# Import an OBJ file as a Mesh
 OBJ ← ⌅(GenOBJ|DecodeOBJ)
 
 Suzanne ← °STL SuzanneSTL
