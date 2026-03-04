@@ -1,5 +1,5 @@
 # Experimental!
-~ "gh: Omnikar/uiua-math" ~ Cross Dot Mvp QRot Qqp RQuat
+~ "gh: Omnikar/uiua-math" ~ Cross Dot Mmp Mvp QRot Qqp RQuat
 ~ "constants.ua" ~ SuzanneSTL
 
 Det₂  ↚ /-×⇌
@@ -9,6 +9,10 @@ Inv₂  ↚ ⧋÷⊃(Det₂°⊟)⍜⇌(⤸₁⍜⌝⤸¯ 0_0)
 
 # Find the normal vector for a triangle
 TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
+
+# Pick the closer of two depth-value pairs
+# Value Depth ? Value Depth Value Depth
+CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 
 ┌╶╶Validation
   Num          ← °0type
@@ -131,9 +135,21 @@ RC ↚ RenderConfig
     ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
     ˜ApplyTexture‼^0⊙◌
   )
+  ConvertTanNormals ← (
+    ⊙(⊃(⍜⍉(-⌞°⊂)Mesh~Triangles|⍜⍉(Inv₂-⌞°⊂)Mesh~UVs|Mesh~Normals)Mesh~ApplyTransform
+      ÷⊸⧋(√/+˙×)≡(⊂˜Mmp))
+    ⍉⧋˜Mvp Normal⟜⤚(⬚0⊏Index)
+    °⊸Normal
+  )
   Call ← °⊸UVs˜↯0△ ⊸TriCoords New
 └─╴
 RO ↚ RenderOutput
+
+┌─╴ImageAndDepth
+  ~ {Image: V~ColorImg|Depth: V~GreyscaleImg}
+  Combine ← ImageAndDepth CombineByDepth ∩°ImageAndDepth
+└─╴
+IAD ← ImageAndDepth
 
 # Convert from World-space coordinates to View-space coordinates
 # Mesh RenderConfig ? Mesh RenderConfig
@@ -169,10 +185,6 @@ DrawTri ← (
   ⊙(⊚˜InTri°⍉)
   +°¤
 )
-
-# Pick the closer of two depth-value pairs
-# Value Depth ? Value Depth Value Depth
-CombineByDepth ← ˜(⍜-×⊙⊙⊃<↧)
 
 # Fast render that does not output a depth map for compositing
 # Use for real-time rendering or scene previewing
