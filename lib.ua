@@ -169,7 +169,7 @@ WorldToView ← (
   ⧋˜-
   ˜(QRot ⍜(↘1°⍉)¯)
   ⧋˜÷
-  ⊓⌞(°⊸Mesh~Triangles|°⊸RC~Camera Transform◌)
+  °⊸Mesh~Triangles
 )
 
 # Filter out faces by direction facing relative to camera
@@ -230,7 +230,7 @@ RenderMesh ← (
     InitMaterialIndex
   )
   WorldToView
-  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|/↧⤙˜↯∞ RC~Size))
+  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(¯RC~Camera≈Up|/↧⤙˜↯∞ RC~Size))
   ⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)
   ⟜∩₃⌟˜▽⊙⊙(°⊏≡⌟(>0Dot))
   ⊙(∪⌞∘×∩⌞⊏⍖)
