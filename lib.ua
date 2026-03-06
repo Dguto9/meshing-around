@@ -51,7 +51,7 @@ Camera ← Transform
 # To use a single value rather than a texture, `¤¤` the value.
 ┌─╴Material
   ~ {
-    Albedo: V~ColorImg ← ¤¤White
+    Albedo: V~ColorImg
     Roughness: V~GreyscaleImg ← ¤¤1
     Reflectivity: V~GreyscaleImg ← ¤¤0
     # Don't change this! Used for validation
@@ -71,7 +71,7 @@ Camera ← Transform
     UVs: V~Num°¤°(˜⊂3_2)△ ← ↯1_3_2 ∞
     MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
     Transform: Transform~V ← Transform
-    Materials: ≡Material~V ← [Material]
+    Materials: ≡Material~V ← []
     TextureSet: ≡V~Box ← []
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
@@ -91,7 +91,7 @@ Camera ← Transform
 # Using the same RenderConfig with multiple meshes should result in a set of renders which can be composed into a single scene, as though they were rendered from the same camera.
 ┌─╴RenderConfig
   ~ {
-    Size: V~Vec₂ ← 100_100
+    Size: V~Vec₂
     Zoom: V~Num ← 1
     Camera: Transform~V ← Transform
     FOV: V~Num ← η
