@@ -73,6 +73,8 @@ Camera ← Transform
     Transform: Transform~V ← Transform
     Materials: ≡Material~V ← []
     TextureSet: ≡V~Box ← []
+    # Don't change this! Used for validation
+    ID ← "Mesh"
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
@@ -85,6 +87,8 @@ Camera ← Transform
   Rotate            ← °⊸Mesh~Transform≈Rotation Qqp⊸⊙Mesh~Transform≈Rotation
 
   Call ← InitUVs InitMaterialIndex InitNormals New
+
+  V ← °1≍"Mesh"ID
 └─╴
 
 # A RenderConfig defines some parameters for rendering a mesh, which aren't specific to the mesh.
@@ -97,9 +101,13 @@ Camera ← Transform
     FOV: V~Num ← η
     Light: V~Vec₃ ← ÷⊸⩜⌵1_0_¯1
     AmbientColor: V~Color ← Black
+    # Don't change this! Used for validation
+    ID ← "RenderConfig"
   }
   AspectRatio ← /÷Size
   HalfayVec   ← ÷₂+⊃(Light|Camera≈Forward)
+
+  V ← °1≍"RenderConfig"ID
 └─╴
 RC ↚ RenderConfig
 
@@ -117,6 +125,7 @@ RC ↚ RenderConfig
     Albedo: V~ColorImg ← ↯1_1_3 ∞
     Roughness: V~GreyscaleImg ← ↯1_1 ∞
     Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
+    ID ← "RenderOutput"
   }
   ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
   ApplyTexture! ← ApplyTexture‼^⊙◌
@@ -153,6 +162,8 @@ RC ↚ RenderConfig
     °⊸Normal
   )
   Call ← °⊸UVs˜↯0△ ⊸TriCoords New
+
+  V ← °1≍"RenderOutput"ID
 └─╴
 RO ↚ RenderOutput
 
@@ -200,7 +211,7 @@ DrawTri ← (
 # Fast render that does not output a depth map for compositing
 # Use for real-time rendering or scene previewing
 # Render ? Mesh RenderConfig
-RenderMeshPreview ← (
+RenderPreview ← (
   Mesh!(
     ApplyTransform
     InitNormals
