@@ -25,30 +25,13 @@ The scene camera is specified as a single `Transform` type, but the library prov
 `Mesh` also contains a `Transform` to define the world-space position of the object, a `Materials` field which is a list of `Material` instances (described next), and a `TextureSet` field, which can be populated with an array of boxed textures for more convenient stack manipulation.
 
 ## Material
-A `Material` instance holds a set of textures which define the properties of a material. Currently, this includes the surface color, `Albedo`; the `Roughness`, which describes how glossy a surface should appear, and the `Reflectivity`, which describes how much mirror-like behaviour a surface should exhibit.
+A `Material` instance holds a set of textures which define the properties of a material. Currently, this includes the surface color, `Albedo`; the `Roughness`, which describes how glossy a surface should appear; and the `Reflectivity`, which describes how much mirror-like behaviour a surface should exhibit.
+
+| Field | Shape |
+| --- | --- |
+| Albedo | MxNx3 |
+| Roughness | MxN |
+| Reflectivity | MxN |
 
 
-**Next page**: [Render ouputs](outputs.md)
-
-<!-- ## RenderOuput
-`RenderOutput` is the second of the larger data definitions. It contains a series of images, all the same resolution, which describe triangle values mapped to view space (read: ).
-Index: V~GreyscaleImg
-    Depth: V~GreyscaleImg
-    MaterialIndex: V~GreyscaleImg
-    Normal: V~ColorImg
-    Light: V~GreyscaleImg
-    TriCoords: V~AlphaImg
-    Ambient: V~ColorImg
-    UVs: V~AlphaImg ← ↯1_1_2 ∞
-    Pos: V~ColorImg ← ↯1_1_3 ∞
-    Albedo: V~ColorImg ← ↯1_1_3 ∞
-    Roughness: V~GreyscaleImg ← ↯1_1 ∞
-    Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
-
-## RenderPreview
-`Render ? Mesh RenderConfig`\
-This function outputs only a lighting map, for a basic idea of how a mesh will appear in a full render. It is significantly faster than the full-featured `RenderMesh` function, and can run at 20 FPS at 500x500 resolution on my laptop. `RenderPreview` is currently not meant for multi-mesh rendering.
-
-## RenderMesh
-`RenderOutput ? Mesh RenderConfig`\
-This is the usual function for generating renders. It outputs a `RenderOutput`. -->
+**Next page**: [the rendering process](process.md)
