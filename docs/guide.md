@@ -25,13 +25,15 @@ The scene camera is specified as a single `Transform` type, but the library prov
 `Mesh` also contains a `Transform` to define the world-space position of the object, a `Materials` field which is a list of `Material` instances (described next), and a `TextureSet` field, which can be populated with an array of boxed textures for more convenient stack manipulation.
 
 ## Material
-A `Material` instance holds a set of textures which define the properties of a material. Currently, this includes the surface color, `Albedo`; the `Roughness`, which describes how glossy a surface should appear; and the `Reflectivity`, which describes how much mirror-like behaviour a surface should exhibit.
+A `Material` instance holds a set of textures which define the properties of a surface. Currently, this includes the surface color, `Albedo`; the `Roughness`, which describes how glossy a surface should appear; and the `Reflectivity`, which describes how much mirror-like behaviour a surface should exhibit.
 
 | Field | Shape |
 | --- | --- |
 | Albedo | MxNx3 |
 | Roughness | MxN |
 | Reflectivity | MxN |
+
+In order to use a single color/value, rather than a texture, `¤¤ fixfix` the value.
 
 
 **Next page**: [the rendering process](process.md)
