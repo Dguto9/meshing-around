@@ -52,7 +52,7 @@ RO~GenMatData        # Applies the textures
 &ims
 ```
 > ### Some things to notice
-> - `uiua-math` quaternions are used for all rotations; you will be importing it often
+> - [uiua-math](https://github.com/omnikar/uiua-math) quaternions are used for all rotations; you will be importing it often
 > - Defining aliases like `RO` and `RC` is useful, but to remain explicit, these aliases will not be provided by the library
 
 ### Output
