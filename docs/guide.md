@@ -33,7 +33,7 @@ A `Material` instance holds a set of textures which define the properties of a s
 | Roughness | MxN |
 | Reflectivity | MxN |
 
-In order to use a single color/value, rather than a texture, `¤¤ fixfix` the value.
+In order to use a single color/value, rather than a texture, `¤ fix` the value twice.
 
 
 **Next page**: [the rendering process](process.md)

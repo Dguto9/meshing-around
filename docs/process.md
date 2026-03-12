@@ -16,6 +16,9 @@ The first operations performed by the render functions prepare the triangles of 
 - Image-space scaling
     - The triangle coordinates are finally scaled such that `(-1, 1)`<sup>2</sup> gets mapped to `(0, m)×(0, n)`, where m, n determine the output resolution.
 
+## What is a map?
+In this document, a map refers to an image describing some property (color, depth, etc.) from the perspective of the camera. Opposedly, a texture will refer to an image which is sampled from or applied to the surface of a mesh during the rendering process, but does not visually take the shape of the mesh. During the rendering process, various maps are generated and modified, and later combined into a single image output.
+
 ## Index map
 At the core of the rendering functions `meshing-around` supplies is the generation of the index map. This takes the set of triangles, sorted by closeness to the camera, and blits their index to an image, wherever the triangle is visible. Anywhere in the image where no triangle is present is valued at `∞`, for `⬚ fill` purposes.\
 ![Index map of Suzanne](assets/indexmap.png)
@@ -25,7 +28,7 @@ The index map becomes useful when we want to place per-triangle data on each ren
 
 Examples of this per-triangle data, mapped to the frame by the index map, are `Depth`, `MaterialIndex`, `Normal`, and `Light` values—which will be explored below.
 
-## Depth map, normal map, light map, and material index
+## Depth, normal, light, and material index maps
 | Map | Description | Image | Map | Description | Image |
 | --- | --- | --- | --- | --- | --- |
 | Depth | How far from the camera is each pixel? | ![alt text](assets/depthmap.png) | Normal | What spatial direction does each pixel point? | ![alt text](assets/normalmap.png) |
@@ -45,4 +48,9 @@ Most modern 3D file formats contain texture coordinate data alonside the triangl
 
 By using the previously determined relative coordinates, each individual pixel of a render can be remapped to a position within each UV-space triangle, through a few linear transformations. This provides a map of what area of a texture each pixel of a render should sample from, as a value between 0 and 1 in each axis.\
 ![alt text](assets/uvs.png)\
-This map can be used to `⊡ pick` values from a texture once scaled by the texture's shape, in order to "apply" the texture to the mesh.
+This map can be used to `⊡ pick` values from a texture once scaled by the texture's shape, in order to "apply" the texture to the mesh. It is required to use a `⬚ fill` value to set the background.
+
+## Material maps
+Once a texture coordinate map and a material index map are present, a set of material maps can be generated, matching the textures stored in the `Material` data definition. Using the process described in the previous section, each of the material textures is applied to the triangles assigned to it, and then these are combined into single `Albedo`, `Roughness`, and `Reflectivity` maps.
+
+**Next page**: [render functions](functions.md)
