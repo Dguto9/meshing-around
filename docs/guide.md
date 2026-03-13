@@ -1,6 +1,12 @@
 # A guide to using meshing-around
 This document will explain the intended methods for various rendering operations.
 
+Pages:
+- [Basic operations and data definitions](guide.md)
+- [The rendering process](process.md)
+- [Generating maps in meshing-around](functions.md)
+- [Using the rendered maps](using.md)
+
 ## Importing and exporting
 Both STL and Wavefront OBJ file format are supported for importing and exporting, using the `STL` and `OBJ` functions.
 > The `Suzanne` constant is a nice alternative to dragging and dropping files in the pad.
@@ -36,4 +42,4 @@ A `Material` instance holds a set of textures which define the properties of a s
 In order to use a single color/value, rather than a texture, `¤ fix` the value twice.
 
 
-**Next page**: [the rendering process](process.md)
+**Next page**: [The rendering process](process.md)

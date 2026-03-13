@@ -43,6 +43,6 @@ For that reason, as it may be recalled, `Mesh`es have a `TextureSet` field, allo
 To use this, the `ApplyTextureFromSet` macros exist, taking in the same functions as the previous `ApplyTexture` ones. The difference is, resulting functions from these take in first an index determining which texture to use from the `TextureSet`, then the `RenderOutput`, then the `Mesh`.
 
 ## What next?
-After using some selection of these functions, the `RenderOutput` should contain various maps describing, for each camera pixel, a bunch of different properties describing material, lighting, and even object shape. The next steps involve combining these maps into a single, shaded output.
+After using some selection of these functions, the `RenderOutput` should contain various maps describing, for each camera pixel, a bunch of different properties like material, lighting, and even object shape. The next steps involve combining these maps into a single, shaded output.
 
-**Next page**: [using the output](using.md)
+**Next page**: [Using the rendered maps](using.md)

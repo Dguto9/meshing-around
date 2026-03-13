@@ -1,4 +1,4 @@
-# Render process
+# The rendering process
 This page is dedicated mainly to an explanation of the render process and the different maps which it provides.
 
 ## Mesh preparation
@@ -53,4 +53,4 @@ This map can be used to `⊡ pick` values from a texture once scaled by the text
 ## Material maps
 Once a texture coordinate map and a material index map are present, a set of material maps can be generated, matching the textures stored in the `Material` data definition. Using the process described in the previous section, each of the material textures is applied to the triangles assigned to it, and then these are combined into single `Albedo`, `Roughness`, and `Reflectivity` maps.
 
-**Next page**: [render functions](functions.md)
+**Next page**: [Generating maps in meshing-around](functions.md)

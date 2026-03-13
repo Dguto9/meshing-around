@@ -6,7 +6,9 @@ The library provides the following functionality:
 - A `Suzanne` constant!
 - Output of rendered normal, color, and lighting maps (and more)
 - Generation of texture coordinates
-- Material system supporting values and textures
+- Material system supporting textures
+
+**Want to jump right in?** Read the [guide](docs/guide.md)!
 
 > It is recommended that you familiarize yourself with [data definitions](https://www.uiua.org/tutorial/Data%20Definitions) and [quaternion rotations](https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation).
 
