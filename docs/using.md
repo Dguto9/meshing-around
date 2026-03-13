@@ -7,7 +7,7 @@ One `RenderOutput` is created for each `Mesh` rendered—so how can multiple mes
 Shading (technically, "fragment shading" in particular) takes the various maps and algorithmically determines the value at each pixel based on the corresponding values in each `RenderOutput` map. This may include combination of lighting with albedo, or calculation of specular highlights based on normals.
 
 ## The forward vs. deferred decision
-A key difference in rendering pipelines which may be recognizeable by name is the choice between forward rendering and deferred rendering. The decision really boils down to which of two steps come first: depth resolution and shading. Each has benefits and deficiencies.
+A key difference in rendering pipelines which you may have heard of is the choice between forward rendering and deferred rendering. The decision really boils down to which of two steps come first: depth resolution and shading. Each has benefits and deficiencies.
 
 In forward rendering, each mesh is shaded individually, and all of these shaded renders are combined through the depth map after. This means that many pixels are being shaded, and later thrown out for being obscured.
 
