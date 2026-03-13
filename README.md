@@ -1,3 +1,5 @@
+![Monkey appearing from and rotating out of Uiua logo](docs/assets/logomonkey.png)
+
 # meshing-around
 `meshing-around` is a configurable rendering library for the [Uiua](https://uiua.org) language, with a goal of providing Uiuic methods for common rendering operations.
 
@@ -18,7 +20,7 @@ To use the library, include the following at the top of your file:
 # Experimental!
 M ~ "gh: Dguto9/meshing-around"
 ```
-Create a RenderConfig with a resolution, and create a Mesh instance by importing from a 3D file format:
+Create a `RenderConfig` with a resolution, and create a `Mesh` instance by importing from a 3D file format:
 ```uiua
 M~RenderConfig 500_500
 °M~OBJ &fras "assets/suzanne.obj"
