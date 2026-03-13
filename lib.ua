@@ -38,9 +38,12 @@ V ↚ Validation
     # Don't change this! Used for validation
     ID ← "Transform"
   }
+  # Get the 3D vector pointing in the object's local forward direction.
   Forward ← ˜QRot 0_1_0 Rotation
-  Right   ← ˜QRot 1_0_0 Rotation
-  Up      ← ˜QRot 0_0_1 Rotation
+  # Get the 3D vector pointing in the object's local right direction.
+  Right ← ˜QRot 1_0_0 Rotation
+  # Get the 3D vector pointing in the object's local up direction.
+  Up ← ˜QRot 0_0_1 Rotation
 
   V ← °1≍"Transform"ID
 └─╴
@@ -140,7 +143,7 @@ RC ↚ RenderConfig
   GenPos ← (
     GenMeshProp‼Mesh~Triangles Pos⊙Mesh~ApplyTransform
   )
-  GenMatData ← (
+  GenMaterials ← (
     ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
@@ -208,8 +211,8 @@ DrawTri ← (
   +°¤
 )
 
-# Fast render that does not output a depth map for compositing
-# Use for real-time rendering or scene previewing
+# Fast render that does not output a depth map for compositing.
+# Use for real-time rendering or scene previewing.
 # Render ? Mesh RenderConfig
 RenderPreview ← (
   Mesh!(
@@ -231,8 +234,8 @@ RenderPreview ← (
   ⇌°⍉
 )
 
-# Full-featured renderer
-# Use for real-time rendering or scene previewing
+# Full-featured renderer.
+# Performs the core steps of the full rendering process.
 # RenderOutput ? Mesh RenderConfig
 RenderMesh ← (
   Mesh!(
@@ -315,8 +318,14 @@ GenOBJ ↚ (
 )
 
 # Import an STL file as a Mesh. STL files do not contain UV coordinates.
+# There are two types of STL, ASCII and binary.
+# The inverse of this function can decode either, just make sure to `&fras` or `&frab` appropriately.
+# The STL function always generates binary STL.
 STL ← ⌅(GenSTL|DecodeSTL)
-# Import an OBJ file as a Mesh
+# Import an OBJ file as a Mesh.
+# For use with this library, the OBJ file must only contain triangles, and must contain UV coordinates.
 OBJ ← ⌅(GenOBJ|DecodeOBJ)
 
+# Suzanne is a constant containing the "Suzanne" mesh used by Blender as a `Mesh` instance.
+# The Suzanne constant does not have a UV map.
 Suzanne ← °STL SuzanneSTL
