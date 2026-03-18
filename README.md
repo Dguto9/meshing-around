@@ -51,7 +51,7 @@ RC 500_500
 
 ⤚M~RenderMesh        # This one does the rendering!
 ⊸RO~GenUVs           # Generate texture coordinates
-RO~GenMatData        # Applies the textures
+RO~GenMaterials      # Apply the textures
 ×⊃RO~Albedo RO~Light # Multiply color and lighting to get shading
 &ims
 ```
@@ -63,6 +63,6 @@ RO~GenMatData        # Applies the textures
 ![3D monkey model patterned with colored tiles and checkers](docs/assets/suzanne_render_textured.png)
 
 ## What now?
-- Try it out in the [pad](https://uiua.org/pad?src=0_19_0-dev_1__eJx1j09LAkEYxu_vpxjtogdzJCTqFhoRtGyO3ZepHXeHdmdtdwakwxAumAlBNyGCKITwVLeCDoHd6zu8nyS0PBR0fZ4fz58Vst3rilTGQmkeFcAhlhSDcJM0A6OTjWosslCqoMLTxCi_CD-uGyt5zNOqkYZXYq7DIrGkddIlrGW4BmANgoMr4lgmlC_SRqI6MgDm_lJdo7vmG65T6tUpBXBs25xypQTA7AlHL07BEVloD1Kusk6SxngxbB_xSODgcY3Q1fV_KZZormWiFqtwOF0MI59nhHrUq5GPZ1LzqEcBcHSL_RyHU-znJcc6XItU8mg2mU3KOLrHfr7P1U-NXdQskQzw8uaPtqt80Svh-G2eeX6HD69lAJxcLz_PYWCu3RHK4brJNYf3MY5y5tqt6FD4CWGu3ZNBqOELkZGloQ==)
+- Try it out in the [pad](https://uiua.org/pad?src=0_19_0-dev_2__eJx1j09LAkEYxu_vp5jsogdzJCTqFhYRtGyO3ZepHXeHdmdtdwakwxAumAlBNyGCKITwVLeCDoHd6zu8nyQ0JQq6Ps-P588y2e60RSpjoTSPlsAhlhSCcINsBUYn65VYZKFUQZmniVF-AeauGyt5zNOKkYaXY67DArGkcdImrGG4BmB1gr0r4lgmlC_SeqJaMgDm_lJdo9vmG65R6tUoBXBs05xypQTA5AkHL86SI7LQHqRcZa0kjfGi3zzikcDe4yqhK2v_UizRXMtEzVZhfzwbRj7PCPWoVyUfz6TqUY8C4OAWuzn2x9jNi451uBap5NFkNBmVcHCP3Xyfq3mNndUskAzw8uaPtqt80Sni8G2aeX6HD68lABxdLz5PYWCu3RHqJ-Z9iIOcuXYzOhR-Qphr92QQavgC5L6mpw==)
 - Skim the [docs](https://dguto9.github.io/meshing-around/)
 - Read the [guide](docs/guide.md)

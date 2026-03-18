@@ -45,6 +45,8 @@ V ↚ Validation
   # Get the 3D vector pointing in the object's local up direction.
   Up ← ˜QRot 0_0_1 Rotation
 
+  Rotate ← °⊸Rotation Qqp⊸⊙Rotation
+
   V ← °1≍"Transform"ID
 └─╴
 Camera ← Transform
@@ -133,15 +135,15 @@ RC ↚ RenderConfig
   ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
   ApplyTexture! ← ApplyTexture‼^⊙◌
   GenMeshProp‼ ↚ (
-    ⤚⊙(⊃TriCoords(∩⌞⬚NaN⊏Index)|∩°⍉⟜-⌞°⊂⍉^0)
+    ⤚⊙(⊃TriCoords(∩⌞⬚°◌⊏Index)|∩°⍉⟜-⌞°⊂⍉^0)
     +⍉∪⌟⧋˜Mvp∘
     °⊸^1
   )
   GenUVs ← (
-    GenMeshProp‼Mesh~UVs UVs
+    ⬚NaN GenMeshProp‼Mesh~UVs UVs
   )
   GenPos ← (
-    GenMeshProp‼Mesh~Triangles Pos⊙Mesh~ApplyTransform
+    ⬚∞GenMeshProp‼Mesh~Triangles Pos⊙Mesh~ApplyTransform
   )
   GenMaterials ← (
     ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
@@ -183,6 +185,7 @@ WorldToView ← (
   ⧋˜-
   ˜(QRot ⍜(↘1°⍉)¯)
   ⧋˜÷
+  ⧋(⊏0_2_1)
   °⊸Mesh~Triangles
 )
 
@@ -219,8 +222,8 @@ RenderPreview ← (
     ApplyTransform
     InitNormals
   )
-  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|¯RC~Camera≈Up)
-  ∩⌟˜▽⊙(⟜≡⌟(>0Dot))
+  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|RC~Camera≈Forward)
+  ∩⌟˜▽⊙(⟜≡⌟(<0Dot))
   °⊸⊃Mesh~Triangles Mesh~Normals
   WorldToView
   ⊃↓(
@@ -244,15 +247,15 @@ RenderMesh ← (
     InitMaterialIndex
   )
   WorldToView
-  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(¯RC~Camera≈Up|/↧⤙˜↯∞ RC~Size))
+  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|/↧⤙˜↯∞ RC~Size))
   ⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)
-  ⟜∩₃⌟˜▽⊙⊙(°⊏≡⌟(>0Dot))
+  ⟜∩₃⌟˜▽⊙⊙(°⊏≡⌟(<0Dot))
   ⊙(∪⌞∘×∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
   | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size) # UVs
-  | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)                  # Lighting
+  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)                      # Lighting
   | Mesh~Normals                                         # Normal
   | Mesh~MaterialIndex                                   # Albedo
   )
