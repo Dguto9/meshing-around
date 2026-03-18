@@ -104,7 +104,7 @@ Camera ← Transform
     Zoom: V~Num ← 1
     Camera: Transform~V ← Transform
     FOV: V~Num ← η
-    Light: V~Vec₃ ← ÷⊸⩜⌵1_0_¯1
+    Light: V~Vec₃ ← ÷⊸⩜⌵1_1_¯1
     AmbientColor: V~Color ← Black
     # Don't change this! Used for validation
     ID ← "RenderConfig"
