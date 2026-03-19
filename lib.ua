@@ -129,9 +129,7 @@ RC ↚ RenderConfig
     Ambient: V~ColorImg
     UVs: V~AlphaImg ← ↯1_1_2 ∞
     Pos: V~ColorImg ← ↯1_1_3 ∞
-    Albedo: V~ColorImg ← ↯1_1_3 ∞
-    Roughness: V~GreyscaleImg ← ↯1_1 ∞
-    Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
+    Material: Material~V ← Material¤¤White
   }
   ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
   ApplyTexture! ← ApplyTexture‼^⊙◌
@@ -151,7 +149,7 @@ RC ↚ RenderConfig
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
     ∩₃⌞(/+≡◇(⬚0⊡⌊⧋×⊸⊙△₂))
-    °⊸⊃(Albedo|Roughness|Reflectivity)
+    °⊸⊃(Material~Albedo|Material~Roughness|Material~Reflectivity)
   )
   ApplyTexFromSet‼ ← (
     ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
