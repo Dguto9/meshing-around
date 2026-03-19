@@ -32,11 +32,11 @@ V ↚ Validation
 # Transform is used to represent the translation, rotation, and scale of an object.
 ┌─╴Transform
   ~ {
+    # Don't change this! Used for validation
+    ID ← "Transform"
     Position: V~Vec₃ ← ⊚3
     Scale: V~Vec₃ ← ↯3 1
     Rotation: V~Quat ← RQuat 0 ˙⊟₃ 0
-    # Don't change this! Used for validation
-    ID ← "Transform"
   }
   # Get the 3D vector pointing in the object's local forward direction.
   Forward ← ˜QRot 0_1_0 Rotation
@@ -56,11 +56,11 @@ Camera ← Transform
 # To use a single value rather than a texture, `¤¤` the value.
 ┌─╴Material
   ~ {
+    # Don't change this! Used for validation
+    ID ← "Material"
     Albedo: V~ColorImg
     Roughness: V~GreyscaleImg ← ¤¤1
     Reflectivity: V~GreyscaleImg ← ¤¤0
-    # Don't change this! Used for validation
-    ID ← "Material"
   }
   V ← °1≍"Material"ID
 └─╴
@@ -71,6 +71,8 @@ Camera ← Transform
 # and a set of textures to be moved around with the mesh.
 ┌─╴Mesh
   ~ {
+    # Don't change this! Used for validation
+    ID ← "Mesh"
     Triangles: V~Num°¤°(˜⊂3_3)△
     Normals: V~Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
     UVs: V~Num°¤°(˜⊂3_2)△ ← ↯1_3_2 ∞
@@ -78,8 +80,6 @@ Camera ← Transform
     Transform: Transform~V ← Transform
     Materials: ≡Material~V ← []
     TextureSet: ≡V~Box ← []
-    # Don't change this! Used for validation
-    ID ← "Mesh"
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
@@ -100,14 +100,14 @@ Camera ← Transform
 # Using the same RenderConfig with multiple meshes should result in a set of renders which can be composed into a single scene, as though they were rendered from the same camera.
 ┌─╴RenderConfig
   ~ {
+    # Don't change this! Used for validation
+    ID ← "RenderConfig"
     Size: V~Vec₂
     Zoom: V~Num ← 1
     Camera: Transform~V ← Transform
     FOV: V~Num ← η
     Light: V~Vec₃ ← ÷⊸⩜⌵1_1_¯1
     AmbientColor: V~Color ← Black
-    # Don't change this! Used for validation
-    ID ← "RenderConfig"
   }
   AspectRatio ← /÷Size
   HalfayVec   ← ÷₂+⊃(Light|Camera≈Forward)
@@ -118,6 +118,8 @@ RC ↚ RenderConfig
 
 ┌─╴RenderOutput
   ~ {
+    # Don't change this! Used for validation
+    ID ← "RenderOutput"
     Index: V~GreyscaleImg
     Depth: V~GreyscaleImg
     MaterialIndex: V~GreyscaleImg
@@ -130,7 +132,6 @@ RC ↚ RenderConfig
     Albedo: V~ColorImg ← ↯1_1_3 ∞
     Roughness: V~GreyscaleImg ← ↯1_1 ∞
     Reflectivity: V~GreyscaleImg ← ↯1_1 ∞
-    ID ← "RenderOutput"
   }
   ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
   ApplyTexture! ← ApplyTexture‼^⊙◌
