@@ -222,7 +222,7 @@ RenderPreview ← (
     InitNormals
   )
   ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|RC~Camera≈Forward)
-  ∩⌟˜▽⊙(⟜≡⌟(<0Dot))
+  ∩⌟˜▽⊙⟜(<₀⧋Dot)
   °⊸⊃Mesh~Triangles Mesh~Normals
   WorldToView
   ⊃↓(
@@ -246,10 +246,10 @@ RenderMesh ← (
     InitMaterialIndex
   )
   WorldToView
-  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|/↧⤙˜↯∞ RC~Size))
-  ⊃(÷₃≡(°¤/+)⧋↘₂|°(-⊸¬)⧋↙₂)
-  ⟜∩₃⌟˜▽⊙⊙(°⊏≡⌟(<0Dot))
-  ⊙(∪⌞∘×∩⌞⊏⍖)
+  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|⤙˜↯∞ RC~Size))
+  ⊃(÷₃⧋(/+⊣)|⧋↙₂)
+  ⟜∩₃⌟˜▽⊙⊙(°⊏<₀⧋Dot)
+  ⊙(?∪⌞∘(+×⊙⊃/↧(¤¤÷₂))∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
