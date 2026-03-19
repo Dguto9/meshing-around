@@ -249,7 +249,7 @@ RenderMesh ← (
   ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|⤙˜↯∞ RC~Size))
   ⊃(÷₃⧋(/+⊣)|⧋↙₂)
   ⟜∩₃⌟˜▽⊙⊙(°⊏<₀⧋Dot)
-  ⊙(?∪⌞∘(+×⊙⊃/↧(¤¤÷₂))∩⌞⊏⍖)
+  ⊙(∪⌞∘(+×⊙(⊃/↧(¤¤)÷₂))∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
