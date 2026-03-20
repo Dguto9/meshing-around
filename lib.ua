@@ -149,7 +149,7 @@ RC ↚ RenderConfig
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
     ∩₃⌞(/+≡◇(⬚0⊡⌊⧋×⊸⊙△₂))
-    °⊸⊃(Material~Albedo|Material~Roughness|Material~Reflectivity)
+    °⊸⊃(Material≈Albedo|Material≈Roughness|Material≈Reflectivity)
   )
   ApplyTexFromSet‼ ← (
     ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
@@ -253,10 +253,10 @@ RenderMesh ← (
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-  | ⍜(°⊂⍉)⟜(Inv₂-⌞)×⊓(°(-⊸¬)⧋↙₂Mesh~Triangles|/↧RC~Size) # UVs
-  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)                      # Lighting
-  | Mesh~Normals                                         # Normal
-  | Mesh~MaterialIndex                                   # Albedo
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh~Triangles|RC~Size) # UVs
+  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)                           # Lighting
+  | Mesh~Normals                                              # Normal
+  | Mesh~MaterialIndex                                        # Albedo
   )
   ⟜⊓⌞(
     ⬚∞⊏ | ⬚NaN⊏ | ⬚0⊏ | ⬚0⊏
