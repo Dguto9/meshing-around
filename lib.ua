@@ -1,6 +1,5 @@
 # Experimental!
 ~ "gh: Omnikar/uiua-math" ~ Cross Dot Mmp Mvp QRot Qqp RQuat
-~ "constants.ua" ~ SuzanneOBJ
 
 Det₂  ↚ /-×⇌
 Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
@@ -329,7 +328,7 @@ STL ← ⌅(GenSTL|DecodeSTL)
 # For use with this library, the OBJ file must only contain triangles, and must contain UV coordinates.
 OBJ ← ⌅(GenOBJ|DecodeOBJ)
 
-°OBJ SuzanneOBJ
+°OBJ &fras $"_/_" ThisFileDir "/assets/suzanne.obj"
 # Suzanne is a constant containing the "Suzanne" mesh used by Blender as a `Mesh` instance.
 # The Suzanne constant does not have a UV map.
 Suzanne ←
