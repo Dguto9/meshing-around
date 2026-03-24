@@ -1,3 +1,3 @@
-- [ ] Fix centering in non-square renders
+- [x] Fix centering in non-square renders
 - [ ] Add frustum culling (or at least behind-camera culling)
 - [ ] Add perspective projection

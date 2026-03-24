@@ -1,6 +1,6 @@
 # Experimental!
 ~ "gh: Omnikar/uiua-math" ~ Cross Dot Mmp Mvp QRot Qqp RQuat
-~ "constants.ua" ~ SuzanneSTL
+~ "constants.ua" ~ SuzanneOBJ
 
 Det₂  ↚ /-×⇌
 Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
@@ -110,7 +110,7 @@ Camera ← Transform
     AmbientColor: V~Color ← Black
   }
   AspectRatio ← /÷Size
-  HalfayVec   ← ÷₂+⊃(Light|Camera≈Forward)
+  HalfwayVec  ← ÷⊸⩜⌵+⊃(¯Light|Camera≈Forward)
 
   V ← °1≍"RenderConfig"ID
 └─╴
@@ -157,7 +157,7 @@ RC ↚ RenderConfig
   )
   ApplyTexFromSet! ← (
     ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
-    ˜ApplyTexture‼^0⊙◌
+    ˜ApplyTexture‼^⊙◌
   )
   ConvertTanNormals ← (
     ⊙(⊃(⍜⍉(-⌞°⊂)Mesh~Triangles|⍜⍉(Inv₂-⌞°⊂)Mesh~UVs|Mesh~Normals)Mesh~ApplyTransform
@@ -253,10 +253,10 @@ RenderMesh ← (
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
   | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh~Triangles|RC~Size) # UVs
-  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)                           # Lighting
-  | Mesh~Normals                                              # Normal
-  | Mesh~MaterialIndex                                        # Albedo
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh~Triangles|RC~Size)
+  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)
+  | Mesh~Normals
+  | Mesh~MaterialIndex
   )
   ⟜⊓⌞(
     ⬚∞⊏ | ⬚NaN⊏ | ⬚0⊏ | ⬚0⊏
@@ -325,9 +325,11 @@ GenOBJ ↚ (
 # The STL function always generates binary STL.
 STL ← ⌅(GenSTL|DecodeSTL)
 # Import an OBJ file as a Mesh.
+# OBJ files should be read with &fras.
 # For use with this library, the OBJ file must only contain triangles, and must contain UV coordinates.
 OBJ ← ⌅(GenOBJ|DecodeOBJ)
 
+°OBJ SuzanneOBJ
 # Suzanne is a constant containing the "Suzanne" mesh used by Blender as a `Mesh` instance.
 # The Suzanne constant does not have a UV map.
-Suzanne ← °STL SuzanneSTL
+Suzanne ←
