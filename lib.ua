@@ -57,10 +57,14 @@ Camera ← Transform
   ~ {
     # Don't change this! Used for validation
     ID ← "Material"
-    Albedo: V.ColorImg
-    Roughness: V.GreyscaleImg ← ¤¤1
-    Reflectivity: V.GreyscaleImg ← ¤¤0
+    Vals ← map ∩□"Color"
   }
+  Get  ← °□get⊙Vals
+  Get! ← °□get^Vals
+  Set  ← ⍜⊙⊙Vals insert
+  Set! ← ⍜⊙Vals (insert^)
+  !    ← ⌅(°□get^Vals|⊙(°□get^)⟜Vals|⍜Vals˜(insert^))
+
   V ← °1≍"Material"ID
 └─╴
 
@@ -144,11 +148,11 @@ RC ↚ RenderConfig
     ⬚∞GenMeshProp‼Mesh.Triangles Pos⊙Mesh.ApplyTransform
   )
   GenMaterials ← (
-    ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material.Albedo|Material.Roughness|Material.Reflectivity) Mesh.Materials)
+    ⤚⊓(⊃MaterialIndex UVs|˜⊙⊢≡◇(°mapMaterial~Vals) Mesh~Materials)
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
-    ∩₃⌞(/+≡◇(⬚0⊡⌊⧋×⊸⊙△₂))
-    °⊸⊃(Material‥Albedo|Material‥Roughness|Material‥Reflectivity)
+    /+≡◇⍚⌞(⬚0⊡⌊⧋×⊸⊙△₂)
+    °⊸Material□₂"Material"˜map
   )
   ApplyTexFromSet‼ ← (
     ∪⌞∘(°□⊡)⊙⊙Mesh.TextureSet
