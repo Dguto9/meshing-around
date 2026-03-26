@@ -133,13 +133,13 @@ RC ↚ RenderConfig
     ^1
   )
   GenUVs ← (
-    ⬚NaN GenMeshProp‼Mesh~UVs Set!"UV"
+    ⬚NaN GenMeshProp‼Mesh.UVs Set!"UV"
   )
   GenPos ← (
-    ⬚∞ GenMeshProp‼Mesh~Triangles Set!"Pos"⊙Mesh~ApplyTransform
+    ⬚∞ GenMeshProp‼Mesh.Triangles Set!"Pos"⊙Mesh.ApplyTransform
   )
   GenMaterials ← (
-    ⤚⊓(⊃Get!"MaterialIndex" Get!"UV"|˜⊙⊢≡◇(°mapMaterial~Vals) Mesh~Materials)
+    ⤚⊓(⊃Get!"MaterialIndex" Get!"UV"|˜⊙⊢≡◇(°mapMaterial.Vals) Mesh.Materials)
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
     /+≡◇⍚⌞(⬚0⊡⌊⧋×⊸⊙△₂)
@@ -243,10 +243,10 @@ RenderMesh ← (
   ⊙(∪⌞∘(+×⊙(⊃/↧(¤¤)÷₂))∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
-  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh~Triangles|RC~Size)
-  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)
-  | Mesh~Normals
-  | Mesh~MaterialIndex
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh.Triangles|RC.Size)
+  | ↥₀¯⧋Dot⊓(Mesh.Normals|RC.Light)
+  | Mesh.Normals
+  | Mesh.MaterialIndex
   )
   ⟜⊓⌞(
     ⬚∞⊏ | ⬚NaN⊏ | ⬚0⊏ | ⬚0⊏
