@@ -33,9 +33,9 @@ V ↚ Validation
   ~ {
     # Don't change this! Used for validation
     ID ← "Transform"
-    Position: V~Vec₃ ← ⊚3
-    Scale: V~Vec₃ ← ↯3 1
-    Rotation: V~Quat ← RQuat 0 ˙⊟₃ 0
+    Position: V.Vec₃ ← ⊚3
+    Scale: V.Vec₃ ← ↯3 1
+    Rotation: V.Quat ← RQuat 0 ˙⊟₃ 0
   }
   # Get the 3D vector pointing in the object's local forward direction.
   Forward ← ˜QRot 0_1_0 Rotation
@@ -57,9 +57,9 @@ Camera ← Transform
   ~ {
     # Don't change this! Used for validation
     ID ← "Material"
-    Albedo: V~ColorImg
-    Roughness: V~GreyscaleImg ← ¤¤1
-    Reflectivity: V~GreyscaleImg ← ¤¤0
+    Albedo: V.ColorImg
+    Roughness: V.GreyscaleImg ← ¤¤1
+    Reflectivity: V.GreyscaleImg ← ¤¤0
   }
   V ← °1≍"Material"ID
 └─╴
@@ -72,23 +72,23 @@ Camera ← Transform
   ~ {
     # Don't change this! Used for validation
     ID ← "Mesh"
-    Triangles: V~Num°¤°(˜⊂3_3)△
-    Normals: V~Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
-    UVs: V~Num°¤°(˜⊂3_2)△ ← ↯1_3_2 ∞
-    MaterialIndex: ⊃(V~Num|°1⧻△) ← ¤∞
-    Transform: Transform~V ← Transform
-    Materials: ≡Material~V ← []
-    TextureSet: ≡V~Box ← []
+    Triangles: V.Num°¤°(˜⊂3_3)△
+    Normals: V.Num°¤°(˜⊂3)△ ← ¤˙⊟₃∞
+    UVs: V.Num°¤°(˜⊂3_2)△ ← ↯1_3_2 ∞
+    MaterialIndex: ⊃(V.Num|°1⧻△) ← ¤∞
+    Transform: Transform.V ← Transform
+    Materials: ≡Material.V ← []
+    TextureSet: ≡V.Box ← []
   }
   InitNormals       ← ⍥(°⊸Normals≡TriNorm⊸Triangles)≍¤˙⊟₃∞ ⊸Normals
   CalculateNormals  ← °⊸Normals≡TriNorm⊸Triangles
   InitUVs           ← ⍥(°⊸UVs ˜↯0 ˜⊂3_2 ⧻⊸Triangles)≍↯1_3_2 ∞ ⊸UVs
   InitMaterialIndex ← ⍥(°⊸MaterialIndex˜↯0 ¤⧻⊸Triangles)≍¤∞ ⊸MaterialIndex
-  ApplyScale        ← °⊸Transform≈Scale↯3 1°⊸Triangles⧋×⊸⊃Transform≈Scale Triangles
-  ApplyRot          ← °⊸Transform≈Rotation RQuat0˙⊟₃0°⊸⊃(Normals|Triangles) ∩⌞QRot⊸⊃(Transform≈Rotation|Normals|Triangles)
-  ApplyPos          ← °⊸Transform≈Position⊚3°⊸Triangles⧋+⊸⊃Transform≈Position Triangles
+  ApplyScale        ← °⊸Transform‥Scale↯3 1°⊸Triangles⧋×⊸⊃Transform‥Scale Triangles
+  ApplyRot          ← °⊸Transform‥Rotation RQuat0˙⊟₃0°⊸⊃(Normals|Triangles) ∩⌞QRot⊸⊃(Transform‥Rotation|Normals|Triangles)
+  ApplyPos          ← °⊸Transform‥Position⊚3°⊸Triangles⧋+⊸⊃Transform‥Position Triangles
   ApplyTransform    ← ApplyPos ApplyRot ApplyScale
-  Rotate            ← °⊸Mesh~Transform≈Rotation Qqp⊸⊙Mesh~Transform≈Rotation
+  Rotate            ← °⊸Mesh.Transform‥Rotation Qqp⊸⊙Mesh.Transform‥Rotation
 
   Call ← InitUVs InitMaterialIndex InitNormals New
 
@@ -101,15 +101,15 @@ Camera ← Transform
   ~ {
     # Don't change this! Used for validation
     ID ← "RenderConfig"
-    Size: V~Vec₂
-    Zoom: V~Num ← 1
-    Camera: Transform~V ← Transform
-    FOV: V~Num ← η
-    Light: V~Vec₃ ← ÷⊸⩜⌵1_1_¯1
-    AmbientColor: V~Color ← Black
+    Size: V.Vec₂
+    Zoom: V.Num ← 1
+    Camera: Transform.V ← Transform
+    FOV: V.Num ← η
+    Light: V.Vec₃ ← ÷⊸⩜⌵1_1_¯1
+    AmbientColor: V.Color ← Black
   }
   AspectRatio ← /÷Size
-  HalfwayVec  ← ÷⊸⩜⌵+⊃(¯Light|Camera≈Forward)
+  HalfwayVec  ← ÷⊸⩜⌵+⊃(¯Light|Camera‥Forward)
 
   V ← °1≍"RenderConfig"ID
 └─╴
@@ -119,16 +119,16 @@ RC ↚ RenderConfig
   ~ {
     # Don't change this! Used for validation
     ID ← "RenderOutput"
-    Index: V~GreyscaleImg
-    Depth: V~GreyscaleImg
-    MaterialIndex: V~GreyscaleImg
-    Normal: V~ColorImg
-    Light: V~GreyscaleImg
-    TriCoords: V~AlphaImg
-    Ambient: V~ColorImg
-    UVs: V~AlphaImg ← ↯1_1_2 ∞
-    Pos: V~ColorImg ← ↯1_1_3 ∞
-    Material: Material~V ← Material¤¤White
+    Index: V.GreyscaleImg
+    Depth: V.GreyscaleImg
+    MaterialIndex: V.GreyscaleImg
+    Normal: V.ColorImg
+    Light: V.GreyscaleImg
+    TriCoords: V.AlphaImg
+    Ambient: V.ColorImg
+    UVs: V.AlphaImg ← ↯1_1_2 ∞
+    Pos: V.ColorImg ← ↯1_1_3 ∞
+    Material: Material.V ← Material¤¤White
   }
   ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
   ApplyTexture! ← ApplyTexture‼^⊙◌
@@ -138,28 +138,28 @@ RC ↚ RenderConfig
     °⊸^1
   )
   GenUVs ← (
-    ⬚NaN GenMeshProp‼Mesh~UVs UVs
+    ⬚NaN GenMeshProp‼Mesh.UVs UVs
   )
   GenPos ← (
-    ⬚∞GenMeshProp‼Mesh~Triangles Pos⊙Mesh~ApplyTransform
+    ⬚∞GenMeshProp‼Mesh.Triangles Pos⊙Mesh.ApplyTransform
   )
   GenMaterials ← (
-    ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material~Albedo|Material~Roughness|Material~Reflectivity) Mesh~Materials)
+    ⤚⊓(⊃MaterialIndex UVs|⍚⊃(Material.Albedo|Material.Roughness|Material.Reflectivity) Mesh.Materials)
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
     ∩₃⌞(/+≡◇(⬚0⊡⌊⧋×⊸⊙△₂))
-    °⊸⊃(Material≈Albedo|Material≈Roughness|Material≈Reflectivity)
+    °⊸⊃(Material‥Albedo|Material‥Roughness|Material‥Reflectivity)
   )
   ApplyTexFromSet‼ ← (
-    ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
+    ∪⌞∘(°□⊡)⊙⊙Mesh.TextureSet
     ˜ApplyTexture‼^0^1
   )
   ApplyTexFromSet! ← (
-    ∪⌞∘(°□⊡)⊙⊙Mesh~TextureSet
+    ∪⌞∘(°□⊡)⊙⊙Mesh.TextureSet
     ˜ApplyTexture‼^⊙◌
   )
   ConvertTanNormals ← (
-    ⊙(⊃(⍜⍉(-⌞°⊂)Mesh~Triangles|⍜⍉(Inv₂-⌞°⊂)Mesh~UVs|Mesh~Normals)Mesh~ApplyTransform
+    ⊙(⊃(⍜⍉(-⌞°⊂)Mesh.Triangles|⍜⍉(Inv₂-⌞°⊂)Mesh.UVs|Mesh.Normals)Mesh.ApplyTransform
       ÷⊸⧋(√/+˙×)≡(⊂˜Mmp))
     ⍉⧋˜Mvp Normal⟜⤚(⬚0⊏Index)
     °⊸Normal
@@ -171,7 +171,7 @@ RC ↚ RenderConfig
 RO ↚ RenderOutput
 
 ┌─╴ImageAndDepth
-  ~ {Image: V~ColorImg|Depth: V~GreyscaleImg}
+  ~ {Image: V.ColorImg|Depth: V.GreyscaleImg}
   Combine ← ImageAndDepth CombineByDepth ∩°ImageAndDepth
 └─╴
 IAD ← ImageAndDepth
@@ -179,20 +179,20 @@ IAD ← ImageAndDepth
 # Convert from World-space coordinates to View-space coordinates
 # Mesh RenderConfig ? Mesh RenderConfig
 WorldToView ← (
-  ◡⊓Mesh~Triangles (⊃(Camera~Position|Camera~Rotation|Camera~Scale)RC~Camera)
+  ◡⊓Mesh.Triangles (⊃(Camera.Position|Camera.Rotation|Camera.Scale)RC.Camera)
   ⧋˜-
   ˜(QRot ⍜(↘1°⍉)¯)
   ⧋˜÷
   ⧋(⊏0_2_1)
-  °⊸Mesh~Triangles
+  °⊸Mesh.Triangles
 )
 
 # Filter out faces by direction facing relative to camera
 # Mesh ? Mesh RenderConfig
 CullBackfaces ← (
-  ˜⤚⊓(¯RC~Camera≈Up|⊃(Mesh~Normals|Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex))
+  ˜⤚⊓(¯RC.Camera‥Up|⊃(Mesh.Normals|Mesh.Triangles|Mesh.UVs|Mesh.MaterialIndex))
   ∩₄⌞▽⊸≡⌞(>0Dot)
-  °⊸⊃(Mesh~Normals|Mesh~Triangles|Mesh~UVs|Mesh~MaterialIndex)
+  °⊸⊃(Mesh.Normals|Mesh.Triangles|Mesh.UVs|Mesh.MaterialIndex)
 )
 
 # Check if a point is within a triangle
@@ -220,14 +220,14 @@ RenderPreview ← (
     ApplyTransform
     InitNormals
   )
-  ◡⊓(⊃(Mesh~Triangles|Mesh~Normals)|RC~Camera≈Forward)
+  ◡⊓(⊃(Mesh.Triangles|Mesh.Normals)|RC.Camera‥Forward)
   ∩⌟˜▽⊙⟜(<₀⧋Dot)
-  °⊸⊃Mesh~Triangles Mesh~Normals
+  °⊸⊃Mesh.Triangles Mesh.Normals
   WorldToView
   ⊃↓(
-    /↧⤙˜↯0 ⋅RC~Size
-  | °(-⊸¬)¯⧋Dot⊓(Mesh~Normals|RC~Light)
-  | ⍖÷₃≡/+⧋⊃↘₂↙₂Mesh~Triangles)
+    /↧⤙˜↯0 ⋅RC.Size
+  | °(-⊸¬)¯⧋Dot⊓(Mesh.Normals|RC.Light)
+  | ⍖÷₃≡/+⧋⊃↘₂↙₂Mesh.Triangles)
   ∩⌞⊏
   ÷₂+₁
   ∪⌟×∘
@@ -245,17 +245,17 @@ RenderMesh ← (
     InitMaterialIndex
   )
   WorldToView
-  ◡⊓(⊃Mesh~Triangles Mesh~Normals|⊃(RC~Camera≈Forward|⤙˜↯∞ RC~Size))
+  ◡⊓(⊃Mesh.Triangles Mesh.Normals|⊃(RC.Camera‥Forward|⤙˜↯∞ RC.Size))
   ⊃(÷₃⧋(/+⊣)|⧋↙₂)
   ⟜∩₃⌟˜▽⊙⊙(°⊏<₀⧋Dot)
   ⊙(∪⌞∘(+×⊙(⊃/↧(¤¤)÷₂))∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
-  | ↯⋅⊃(˜⊂3RC~Size|RC~AmbientColor)
-  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh~Triangles|RC~Size)
-  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)
-  | Mesh~Normals
-  | Mesh~MaterialIndex
+  | ↯⋅⊃(˜⊂3RC.Size|RC.AmbientColor)
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh.Triangles|RC.Size)
+  | ↥₀¯⧋Dot⊓(Mesh.Normals|RC.Light)
+  | Mesh.Normals
+  | Mesh.MaterialIndex
   )
   ⟜⊓⌞(
     ⬚∞⊏ | ⬚NaN⊏ | ⬚0⊏ | ⬚0⊏
@@ -287,7 +287,7 @@ DecodeSTL ↚ (
 )
 
 GenSTL ↚ (
-  ⊃(Mesh~Triangles|Mesh~Normals)
+  ⊃(Mesh.Triangles|Mesh.Normals)
   ⊙⟜⧻
   ≡˜⊂
   bytes"f32"
@@ -307,7 +307,7 @@ DecodeOBJ ↚ (
 )
 
 GenOBJ ↚ (
-  ⊃(Mesh~Triangles|Mesh~UVs|Mesh~Normals)
+  ⊃(Mesh.Triangles|Mesh.UVs|Mesh.Normals)
   ∩₃(⊸≡⌟˜⨂⟜(◴♭₂))
   °□₆♭⇌⍉⊟₃∩₃□₂
   ∩₃⍚/$"_ _"
