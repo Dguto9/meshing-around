@@ -93,6 +93,7 @@ Camera ← Transform
   ApplyPos          ← °⊸Transform‥Position⊚3°⊸Triangles⧋+⊸⊃Transform‥Position Triangles
   ApplyTransform    ← ApplyPos ApplyRot ApplyScale
   Rotate            ← °⊸Mesh.Transform‥Rotation Qqp⊸⊙Mesh.Transform‥Rotation
+  AddMaterials      ← ⍜⊙Materials⊂
 
   Call ← InitUVs InitMaterialIndex InitNormals New
 
