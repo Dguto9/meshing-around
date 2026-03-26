@@ -57,7 +57,7 @@ Camera ← Transform
   ~ {
     # Don't change this! Used for validation
     ID ← "Material"
-    Vals ← map ∩□"Color"
+    Vals ← map ⊙¤∩□"Color"
   }
   Get  ← °□get⊙Vals
   Get! ← °□get^Vals
@@ -120,39 +120,30 @@ Camera ← Transform
 RC ↚ RenderConfig
 
 ┌─╴RenderOutput
-  ~ {
-    # Don't change this! Used for validation
-    ID ← "RenderOutput"
-    Index: V.GreyscaleImg
-    Depth: V.GreyscaleImg
-    MaterialIndex: V.GreyscaleImg
-    Normal: V.ColorImg
-    Light: V.GreyscaleImg
-    TriCoords: V.AlphaImg
-    Ambient: V.ColorImg
-    UVs: V.AlphaImg ← ↯1_1_2 ∞
-    Pos: V.ColorImg ← ↯1_1_3 ∞
-    Material: Material.V ← Material¤¤White
-  }
-  ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(UVs|^0)
+  New           ← map {"Index" "Depth" "MaterialIndex" "Normal" "Light" "RelCoord"} □₆
+  Get           ← °□get
+  Get!          ← ⌅(°□get^|⊙°□⟜get^|˜(insert^))
+  Set           ← insert
+  Set!          ← insert^
+  ApplyTexture‼ ← °⊸^0^1˜⬚0⊡⟜(⌊⧋×△₂)⊙⊸⊃(Get"UV"|^0)
   ApplyTexture! ← ApplyTexture‼^⊙◌
   GenMeshProp‼ ↚ (
-    ⤚⊙(⊃TriCoords(∩⌞⬚°◌⊏Index)|∩°⍉⟜-⌞°⊂⍉^0)
+    ⤚⊙(⊃Get!"RelCoord"(∩⌞⬚°◌⊏Get!"Index")|∩°⍉⟜-⌞°⊂⍉^0)
     +⍉∪⌟⧋˜Mvp∘
-    °⊸^1
+    ^1
   )
   GenUVs ← (
-    ⬚NaN GenMeshProp‼Mesh.UVs UVs
+    ⬚NaN GenMeshProp‼Mesh~UVs Set!"UV"
   )
   GenPos ← (
-    ⬚∞GenMeshProp‼Mesh.Triangles Pos⊙Mesh.ApplyTransform
+    ⬚∞ GenMeshProp‼Mesh~Triangles Set!"Pos"⊙Mesh~ApplyTransform
   )
   GenMaterials ← (
-    ⤚⊓(⊃MaterialIndex UVs|˜⊙⊢≡◇(°mapMaterial~Vals) Mesh~Materials)
+    ⤚⊓(⊃Get!"MaterialIndex" Get!"UV"|˜⊙⊢≡◇(°mapMaterial~Vals) Mesh~Materials)
     ⊞=⇡◡⋅⋅⧻
     ⨬NaN_NaN∘⊙¤
     /+≡◇⍚⌞(⬚0⊡⌊⧋×⊸⊙△₂)
-    °⊸Material□₂"Material"˜map
+    ∧˜insert
   )
   ApplyTexFromSet‼ ← (
     ∪⌞∘(°□⊡)⊙⊙Mesh.TextureSet
@@ -165,12 +156,9 @@ RC ↚ RenderConfig
   ConvertTanNormals ← (
     ⊙(⊃(⍜⍉(-⌞°⊂)Mesh.Triangles|⍜⍉(Inv₂-⌞°⊂)Mesh.UVs|Mesh.Normals)Mesh.ApplyTransform
       ÷⊸⧋(√/+˙×)≡(⊂˜Mmp))
-    ⍉⧋˜Mvp Normal⟜⤚(⬚0⊏Index)
-    °⊸Normal
+    ⍉⧋˜Mvp Get"Normal"⟜⤚(⬚0⊏Get"Index")
+    Set"Normal"
   )
-  Call ← °⊸UVs˜↯0△ ⊸TriCoords New
-
-  V ← °1≍"RenderOutput"ID
 └─╴
 RO ↚ RenderOutput
 
@@ -255,11 +243,10 @@ RenderMesh ← (
   ⊙(∪⌞∘(+×⊙(⊃/↧(¤¤)÷₂))∩⌞⊏⍖)
   ⤚⋅(⇌°⍉∧(⍜⊙⬚0⊡≡⊙◌¤ ⊙DrawTri))
   ⊙⊙⊃↓(
-  | ↯⋅⊃(˜⊂3RC.Size|RC.AmbientColor)
-  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh.Triangles|RC.Size)
-  | ↥₀¯⧋Dot⊓(Mesh.Normals|RC.Light)
-  | Mesh.Normals
-  | Mesh.MaterialIndex
+  | ⍜(°⊂⍉)⟜(Inv₂-⌞)+×⊙(⊃/↧(¤¤)÷₂)⊓(⧋↙₂Mesh~Triangles|RC~Size)
+  | ↥₀¯⧋Dot⊓(Mesh~Normals|RC~Light)
+  | Mesh~Normals
+  | Mesh~MaterialIndex
   )
   ⟜⊓⌞(
     ⬚∞⊏ | ⬚NaN⊏ | ⬚0⊏ | ⬚0⊏
