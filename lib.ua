@@ -94,6 +94,7 @@ Camera ← Transform
   ApplyTransform    ← ApplyPos ApplyRot ApplyScale
   Rotate            ← °⊸Mesh.Transform‥Rotation Qqp⊸⊙Mesh.Transform‥Rotation
   AddMaterials      ← ⍜⊙Materials⊂
+  AddTexture        ← ⍜⊙TextureSet⊂
 
   Call ← InitUVs InitMaterialIndex InitNormals New
 
