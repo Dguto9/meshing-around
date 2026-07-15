@@ -5,10 +5,11 @@ Det₂  ↚ /-×⇌
 Proj  ↚ ˜⊞×÷⤚˙⌞∩⌞Dot
 Proj₂ ↚ -+⊸∩⌟Proj
 Inv₂  ↚ ⧋÷⊃(Det₂°⊟)⍜⇌(⤸₁⍜⌝⤸¯ 0_0)
+Abs   ← ÷⌵⊸𝕍
 
 # Find the normal vector for a triangle
 # Vector ? Triangle
-TriNorm ← ÷⊸⩜⌵Cross°⊟-¤°⊂
+TriNorm ← Abs Cross°⊟-¤°⊂
 
 # Pick the closer of two depth-value pairs
 # Value Depth ? Value Depth Value Depth
@@ -111,11 +112,11 @@ Camera ← Transform
     Zoom: V.Num ← 1
     Camera: Transform.V ← Transform
     FOV: V.Num ← η
-    Light: V.Vec₃ ← ÷⊸⩜⌵1_1_¯1
+    Light: V.Vec₃ ← Abs 1_1_¯1
     AmbientColor: V.Color ← Black
   }
   AspectRatio ← /÷Size
-  HalfwayVec  ← ÷⊸⩜⌵+⊃(¯Light|Camera‥Forward)
+  HalfwayVec  ← Abs +⊃(¯Light|Camera‥Forward)
 
   V ← °1≍"RenderConfig"ID
 └─╴
