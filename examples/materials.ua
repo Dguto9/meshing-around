@@ -8,7 +8,7 @@ RC 500_500
 
 Suzanne
 
-Mesh.AddMaterials ≡(Material¤¤) Gay
+Mesh.AddMaterials≡(Material¤¤) Gay
 Mesh.AddMaterials¤Material ⧋⊂⧋÷⟜⇡⊸△◿₂⧋/+⇡20_20
 ⍜Mesh.Materials↻₅
 °⊸Mesh.MaterialIndex⌊×₃+₁÷₃≡/+⧋⊣⊸Mesh.Triangles
@@ -17,5 +17,5 @@ Mesh.AddMaterials¤Material ⧋⊂⧋÷⟜⇡⊸△◿₂⧋/+⇡20_20
 ⊸RO.GenUVs
 RO.GenMaterials
 
-×⊃RO.Light RO.Material‥Albedo
+×⊃RO.Get!"Light" RO.Get!"Color"
 &ims

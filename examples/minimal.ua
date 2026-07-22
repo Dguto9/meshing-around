@@ -6,5 +6,5 @@ RenderConfig 500_500
 Suzanne
 
 RenderMesh
-RenderOutput.Light
+RenderOutput.Get"Light"
 &ims
